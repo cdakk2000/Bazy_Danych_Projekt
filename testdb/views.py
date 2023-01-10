@@ -21,6 +21,7 @@ class Index(View):
             cursor = conn.cursor()
             cursor.execute("SELECT password, is_admin FROM \"user\" WHERE email = %s;", (username,))
             results = cursor.fetchone()
+            cursor.close()
             if results is None:
                 form = LoginForm()
             elif results[0]==password and results[1]==False:
