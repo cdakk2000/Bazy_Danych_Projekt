@@ -4,7 +4,10 @@ from . import views
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.Index.as_view(), name='index'),
-    path('database/', views.Index.database_view, name='database')
+    #path('admin/', admin.site.urls),
+    path(r'', views.Index.as_view(), name='index'),
+    path('login/', views.Index.as_view(), name='login'),
+    #path(r'database/', views.Database.as_view(), name='database'),
+    path(r'admin/', views.Admin.as_view(), name='admin'),
+    path(r'search/', views.Search.as_view(), name='search'),
 ]
