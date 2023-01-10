@@ -2,5 +2,10 @@
 <html>
   <head>
     <title>Zapisz</title>
+    <form>
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="button">Save</button>
+    </form>
   </head>
 </html>

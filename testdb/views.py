@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.http import HttpResponseRedirect
 
-from .forms import LoginForm, OptionsForm
+from .forms import LoginForm, OptionsForm, SearchForm
 
 class Index(View):
     template = 'index.html'
@@ -59,7 +59,8 @@ class Options(View):
 class Search(View):
     template = 'search.html'
     def get(self, request):
-        return render(request, self.template)
+        form = SearchForm()
+        return render(request, self.template, {"form":form})
     def post(self, request):
         pass
 
@@ -71,7 +72,8 @@ class Compare(View):
 class SaveSearch(View):
     template = "savesearch.html"
     def get(self, request):
-        return render(request, self.template)
+        form = SearchForm()
+        return render(request, self.template, {"form":form})
 
 class Admin(View):
     template = 'admin.html'
