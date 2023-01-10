@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.http import HttpResponseRedirect
 
-from .forms import LoginForm
+from .forms import LoginForm, OptionsForm
 
 class Index(View):
     template = 'index.html'
@@ -17,7 +17,7 @@ class Index(View):
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234',host='localhost')
+            conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
             cursor = conn.cursor()
             cursor.execute("SELECT password, is_admin FROM \"user\" WHERE email = %s;", (username,))
             results = cursor.fetchone()
@@ -25,13 +25,36 @@ class Index(View):
             if results is None:
                 form = LoginForm()
             elif results[0]==password and results[1]==False:
-                return redirect('search')
+                return redirect('options')
             elif results[0]==password and results[1]==True:
                 return redirect('admin')
         else:
             form = LoginForm()
         return render(request, self.template, {"form":form})
 
+class Options(View):
+    template = 'options.html'
+    def get(self, request):
+        form =OptionsForm()
+        return render(request, self.template, {"form":form})
+
+    def post(self, request):
+        form = OptionsForm(request.POST)
+        if form.is_valid():
+            compare = form.cleaned_data['compare']
+            findphone = form.cleaned_data['findphone']
+            savesearch = form.cleaned_data['savesearch']
+            if compare == True:
+                return redirect('compare')
+            elif findphone == True:
+                return redirect('search')
+            elif savesearch == True:
+                return redirect('savesearch')
+            else:
+                form = OptionsForm()
+        else:
+            form = OptionsForm()
+        return render(request, self.template, {"form":form})
 
 class Search(View):
     template = 'search.html'
@@ -39,6 +62,16 @@ class Search(View):
         return render(request, self.template)
     def post(self, request):
         pass
+
+class Compare(View):
+    template = 'compare.html'
+    def get(self, request):
+        return render(request, self.template)
+
+class SaveSearch(View):
+    template = "savesearch.html"
+    def get(self, request):
+        return render(request, self.template)
 
 class Admin(View):
     template = 'admin.html'
