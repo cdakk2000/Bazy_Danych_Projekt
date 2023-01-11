@@ -1,0 +1,53 @@
+{
+  "model": "Galaxy S22 Ultra 5G",
+  "brand": "Samsung",
+  "release": "2022-02-25",
+  "height": 163.3,
+  "width": 77.9,
+  "thickness": 8.9,
+  "resolution": "1440x3088",
+  "ppi": 500,
+  "cpu": "Octa-core (1x2.8 GHz Cortex-X2 & 3x2.50 GHz Cortex-A710 & 4x1.8 GHz Cortex-A510)",
+  "chipset": "Exynos 2200",
+  "gpu": "Xclipse 920",
+  "memory_card_dedicated": false,
+  "internal_memory": [
+    128,
+    256,
+    512,
+    1024
+  ],
+  "ram": [
+    8,
+    12
+  ],
+  "wifi": "802.11 a/b/g/n/ac/6e",
+  "sim": "Nano-SIM and eSIM or Dual SIM (2 Nano-SIMs and eSIM, dual stand-by)",
+  "connector": "USB Type-C 3.2",
+  "audio_jack": false,
+  "bluetooth_version": 5.2,
+  "gps": true,
+  "nfc": true,
+  "radio": true,
+  "battery_capacity": 5000,
+  "battery_removable": false,
+  "image_url": "https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s22-ultra-5g.jpg",
+  "camera": [
+    {
+      "mp": 108,
+      "f": 1.8
+    },
+    {
+      "mp": 10,
+      "f": 4.9
+    },
+    {
+      "mp": 10,
+      "f": 2.4
+    },
+    {
+      "mp": 12,
+      "f": 2.2
+    }
+  ]
+}
