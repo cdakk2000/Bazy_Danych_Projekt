@@ -1,0 +1,47 @@
+{
+  "model": "Galaxy A14 5G",
+  "brand": "Samsung",
+  "release": "2023-01-04",
+  "height": 167.7,
+  "width": 78.0,
+  "thickness": 9.1,
+  "resolution": "1080 x 2400",
+  "ppi": 399,
+  "cpu": "Octa-core (2x2.2 GHz Cortex-A76 & 6x2.0 GHz Cortex-A55)",
+  "chipset": "Exynos 1330",
+  "gpu": " Mali-G52",
+  "memory_card_dedicated": true,
+  "internal_memory": [
+    64,
+    128
+  ],
+  "ram": [
+    4,
+    6
+  ],
+  "wifi": "802.11 a/b/g/n/ac",
+  "sim": "Nano-SIM",
+  "connector": "USB Type-C 2.0",
+  "audio_jack": true,
+  "bluetooth_version": 5.2,
+  "gps": true,
+  "nfc": false,
+  "radio": false,
+  "battery_capacity": 5000,
+  "battery_removable": false,
+  "image_url": "https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-a14-5g.jpg",
+  "camera": [
+    {
+      "mp": 50,
+      "f": 1.8
+    },
+    {
+      "mp": 5,
+      "f": 2.4
+    },
+    {
+      "mp": 2,
+      "f": 2.4
+    }
+  ]
+}
