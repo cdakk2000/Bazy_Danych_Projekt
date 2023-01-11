@@ -1,0 +1,48 @@
+{
+    "model": "13 Pro",
+    "brand": "Xiaomi",
+    "release": "2022-12-14",
+    "height": 162.9,
+    "width": 74.6,
+    "thickness": 8.4,
+    "resolution": "1440 x 3200",
+    "ppi": 522,
+    "cpu": "Octa-core (1x3.2 GHz Cortex-X3 & 2x2.8 GHz Cortex-A715 & 2x2.8 GHz Cortex-A710 & 3x2.0 GHz Cortex-A510)",
+    "chipset": "Qualcomm SM8550 Snapdragon 8 Gen 2",
+    "gpu": "Adreno 740",
+    "memory_card_dedicated": false,
+    "internal_memory": [
+      128,
+      256,
+      512
+    ],
+    "ram": [
+      8,
+      12
+    ],
+    "wifi": "802.11 a/b/g/n/ac/6e",
+    "sim": "Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 2.0",
+    "audio_jack": false,
+    "bluetooth_version": 5.3,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 4820,
+    "battery_removable": false,
+    "image_url": "https://www.gizmochina.com/wp-content/uploads/2020/12/Xiaomi-13-Pro-1.jpg",
+    "camera": [
+      {
+        "mp": 50.3,
+        "f": 1.9
+      },
+      {
+        "mp": 50,
+        "f": 2.0
+      },
+      {
+        "mp": 50,
+        "f": 2.0
+      }
+    ]
+  }
