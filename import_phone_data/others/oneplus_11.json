@@ -1,0 +1,47 @@
+{
+    "model": "11",
+    "brand": "OnePlus",
+    "release": "2023-01-09",
+    "height": 163.1,
+    "width": 74.1,
+    "thickness": 8.5,
+    "resolution": "1440 x 3216",
+    "ppi": 525,
+    "cpu": "Octa-core (1x3.2 GHz Cortex-X3 & 2x2.8 GHz Cortex-A715 & 2x2.8 GHz Cortex-A710 & 3x2.0 GHz Cortex-A510)",
+    "chipset": "Qualcomm SM8550 Snapdragon 8 Gen 2 ",
+    "gpu": "Adreno 740",
+    "memory_card_dedicated": false,
+    "internal_memory": [
+        256,
+        512
+    ],
+    "ram": [
+      12,
+      16
+    ],
+    "wifi": "802.11 a/b/g/n/ac/6",
+    "sim": "Single SIM (Nano-SIM) or Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 2.0",
+    "audio_jack": false,
+    "bluetooth_version": 5.3,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 5000,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/oneplus/oneplus-11-2.jpg",
+    "camera": [
+      {
+        "mp": 50,
+        "f": 1.8
+      },
+      {
+        "mp": 32,
+        "f": 2.0
+      },
+      {
+        "mp": 48,
+        "f": 2.2
+      }
+    ]
+  }

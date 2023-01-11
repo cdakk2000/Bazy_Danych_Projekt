@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Porównywarka telefonów</title>
+  </head>
+  <body>
+    <!-- Formularz logowania -->
+    <form method="post">
+      {% csrf_token %}
+      {{ form }}
+      <button type="submit">Zaloguj się</button>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Wyszukaj</title>
+  </head>
+  <body>
+    <!-- Pole wyszukiwania -->
+    <form>
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="button">Search</button>
+    </form>
+  </body>
+</html>

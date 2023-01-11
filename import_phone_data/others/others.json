@@ -1,0 +1,480 @@
+[
+    {
+    "model": "11T Pro",
+    "brand": "Xiaomi",
+    "release": "2021-09-15",
+    "height": 164.1,
+    "width": 76.9,
+    "thickness": 8.8,
+    "resolution": "1080 x 2400",
+    "ppi": 395,
+    "cpu": "Octa-core (1x2.84 GHz Cortex-X1 & 3x2.42 GHz Cortex-A78 & 4x1.80 GHz Cortex-A55)",
+    "chipset": "Qualcomm SM8350 Snapdragon 888 5G",
+    "gpu": "Adreno 660",
+    "memory_card_dedicated": false,
+    "internal_memory": [
+      128,
+      256
+    ],
+    "ram": [
+      8,
+      12
+    ],
+    "wifi": "802.11 a/b/g/n/ac/6",
+    "sim": "Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 2.0",
+    "audio_jack": false,
+    "bluetooth_version": 5.2,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 5000,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/bigpic/xiaomi-11t-pro.jpg",
+    "camera": [
+      {
+        "mp": 108,
+        "f": 1.8
+      },
+      {
+        "mp": 8,
+        "f": 2.2
+      },
+      {
+        "mp": 5,
+        "f": 2.4
+      }
+    ]
+  },
+  {
+    "model": "13 Pro",
+    "brand": "Xiaomi",
+    "release": "2022-12-14",
+    "height": 162.9,
+    "width": 74.6,
+    "thickness": 8.4,
+    "resolution": "1440 x 3200",
+    "ppi": 522,
+    "cpu": "Octa-core (1x3.2 GHz Cortex-X3 & 2x2.8 GHz Cortex-A715 & 2x2.8 GHz Cortex-A710 & 3x2.0 GHz Cortex-A510)",
+    "chipset": "Qualcomm SM8550 Snapdragon 8 Gen 2",
+    "gpu": "Adreno 740",
+    "memory_card_dedicated": false,
+    "internal_memory": [
+      128,
+      256,
+      512
+    ],
+    "ram": [
+      8,
+      12
+    ],
+    "wifi": "802.11 a/b/g/n/ac/6e",
+    "sim": "Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 2.0",
+    "audio_jack": false,
+    "bluetooth_version": 5.3,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 4820,
+    "battery_removable": false,
+    "image_url": "https://www.gizmochina.com/wp-content/uploads/2020/12/Xiaomi-13-Pro-1.jpg",
+    "camera": [
+      {
+        "mp": 50,
+        "f": 1.9
+      },
+      {
+        "mp": 50,
+        "f": 2.0
+      },
+      {
+        "mp": 50,
+        "f": 2.0
+      }
+    ]
+  },
+  {
+    "model": "Edge 30 Ultra",
+    "brand": "Motorola",
+    "release": "2022-09-08",
+    "height": 161.8,
+    "width": 73.4,
+    "thickness": 8.4,
+    "resolution": "1080 x 2400",
+    "ppi": 395,
+    "cpu": "Octa-core (1x3.19 GHz Cortex-X2 & 3x2.75 GHz Cortex-A710 & 4x1.80 GHz Cortex-A510)",
+    "chipset": "Qualcomm SM8475 Snapdragon 8+ Gen 1",
+    "gpu": "Adreno 730",
+    "memory_card_dedicated": false,
+    "internal_memory": [
+      128,
+      256,
+      512
+    ],
+    "ram": [
+      8,
+      12
+    ],
+    "wifi": "802.11 a/b/g/n/ac/6e",
+    "sim": "Single SIM (Nano-SIM) or Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 3.1",
+    "audio_jack": false,
+    "bluetooth_version": 5.2,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 5610,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/motorola/motorola-edge30-ultra-1.jpg",
+    "camera": [
+      {
+        "mp": 200,
+        "f": 1.9
+      },
+      {
+        "mp": 12,
+        "f": 1.6
+      },
+      {
+        "mp": 50,
+        "f": 2.2
+      }
+    ]
+  },
+  {
+    "model": "Nord 2T",
+    "brand": "OnePlus",
+    "release": "2022-05-21",
+    "height": 159.1,
+    "width": 73.2,
+    "thickness": 8.2,
+    "resolution": "1080 x 2400",
+    "ppi": 409,
+    "cpu": "Octa-core (1x3.0 GHz Cortex-A78 & 3x2.6 GHz Cortex-A78 & 4x2.0 GHz Cortex-A55)",
+    "chipset": "MediaTek Dimensity 1300",
+    "gpu": "Mali-G77 MC9",
+    "memory_card_dedicated": false,
+    "internal_memory": [
+        128,
+        256
+    ],
+    "ram": [
+      8,
+      12
+    ],
+    "wifi": "802.11 a/b/g/n/ac/6",
+    "sim": "Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 2.0",
+    "audio_jack": false,
+    "bluetooth_version": 5.2,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 4500,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/bigpic/oneplus-nord-2t.jpg",
+    "camera": [
+      {
+        "mp": 50,
+        "f": 1.9
+      },
+      {
+        "mp": 8,
+        "f": 2.2
+      },
+      {
+        "mp": 2,
+        "f": 2.2
+      }
+    ]
+  },
+  {
+    "model": "Nord CE 2 5G",
+    "brand": "OnePlus",
+    "release": "2022-02-17",
+    "height": 160.6,
+    "width": 73.2,
+    "thickness": 7.8,
+    "resolution": "1080 x 2400",
+    "ppi": 409,
+    "cpu": "Octa-core (2x2.4 GHz Cortex-A78 & 6x2.0 GHz Cortex-A55)",
+    "chipset": "MediaTek MT6877 Dimensity 900",
+    "gpu": "Mali-G68 MC4",
+    "memory_card_dedicated": true,
+    "internal_memory": [
+        128
+    ],
+    "ram": [
+      6,
+      8
+    ],
+    "wifi": "802.11 a/b/g/n/ac/6",
+    "sim": "Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 2.0",
+    "audio_jack": true,
+    "bluetooth_version": 5.2,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 4500,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/bigpic/oneplus-nord-ce-2-5g.jpg",
+    "camera": [
+      {
+        "mp": 64,
+        "f": 1.8
+      },
+      {
+        "mp": 8,
+        "f": 2.2
+      },
+      {
+        "mp": 2,
+        "f": 2.2
+      }
+    ]
+  },
+  {
+    "model": "11",
+    "brand": "OnePlus",
+    "release": "2023-01-09",
+    "height": 163.1,
+    "width": 74.1,
+    "thickness": 8.5,
+    "resolution": "1440 x 3216",
+    "ppi": 525,
+    "cpu": "Octa-core (1x3.2 GHz Cortex-X3 & 2x2.8 GHz Cortex-A715 & 2x2.8 GHz Cortex-A710 & 3x2.0 GHz Cortex-A510)",
+    "chipset": "Qualcomm SM8550 Snapdragon 8 Gen 2 ",
+    "gpu": "Adreno 740",
+    "memory_card_dedicated": false,
+    "internal_memory": [
+        256,
+        512
+    ],
+    "ram": [
+      12,
+      16
+    ],
+    "wifi": "802.11 a/b/g/n/ac/6",
+    "sim": "Single SIM (Nano-SIM) or Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 2.0",
+    "audio_jack": false,
+    "bluetooth_version": 5.3,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 5000,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/oneplus/oneplus-11-2.jpg",
+    "camera": [
+      {
+        "mp": 50,
+        "f": 1.8
+      },
+      {
+        "mp": 32,
+        "f": 2.0
+      },
+      {
+        "mp": 48,
+        "f": 2.2
+      }
+    ]
+  },
+  {
+    "model": "Redmi K60 Pro",
+    "brand": "Xiaomi",
+    "release": "2023-01-01",
+    "height": 162.8,
+    "width": 75.4,
+    "thickness": 8.6,
+    "resolution": "1440 x 3200",
+    "ppi": 526,
+    "cpu": "Octa-core (1x3.2 GHz Cortex-X3 & 2x2.8 GHz Cortex-A715 & 2x2.8 GHz Cortex-A710 & 3x2.0 GHz Cortex-A510)",
+    "chipset": "Qualcomm SM8550 Snapdragon 8 Gen 2",
+    "gpu": "Adreno 740",
+    "memory_card_dedicated": false,
+    "internal_memory": [
+      128,
+      256,
+      512
+    ],
+    "ram": [
+      8,
+      12,
+      16
+    ],
+    "wifi": "802.11 a/b/g/n/ac/6e",
+    "sim": "Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 2.0",
+    "audio_jack": false,
+    "bluetooth_version": 5.3,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 5000,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-k60-pro.jpg",
+    "camera": [
+      {
+        "mp": 54,
+        "f": 1.9
+      },
+      {
+        "mp": 8,
+        "f": 0
+      },
+      {
+        "mp": 2,
+        "f": 2.4
+      }
+    ]
+  },
+  {
+    "model": "Redmi Note 11",
+    "brand": "Xiaomi",
+    "release": "2022-01-26",
+    "height": 159.9,
+    "width": 73.9,
+    "thickness": 8.1,
+    "resolution": "1080 x 2400",
+    "ppi": 409,
+    "cpu": "Octa-core (4x2.4 GHz Kryo 265 Gold & 4x1.9 GHz Kryo 265 Silver)",
+    "chipset": "Qualcomm SM6225 Snapdragon 680 4G",
+    "gpu": "Adreno 610",
+    "memory_card_dedicated": true,
+    "internal_memory": [
+        64,
+        128
+    ],
+    "ram": [
+      4,
+      6
+    ],
+    "wifi": "802.11 a/b/g/n/ac",
+    "sim": "Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 2.0",
+    "audio_jack": true,
+    "bluetooth_version": 5.0,
+    "gps": true,
+    "nfc": true,
+    "radio": true,
+    "battery_capacity": 5000,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-note-11-global.jpg",
+    "camera": [
+      {
+        "mp": 50,
+        "f": 1.8
+      },
+      {
+        "mp": 8,
+        "f": 2.2
+      },
+      {
+        "mp": 2,
+        "f": 2.4
+      },
+      {
+        "mp": 2,
+        "f": 2.4
+      }
+    ]
+  },
+  {
+    "model": "Redmi Note 12 Pro",
+    "brand": "Xiaomi",
+    "release": "2022-11-01",
+    "height": 163,
+    "width": 76,
+    "thickness": 8,
+    "resolution": "1080 x 2400",
+    "ppi": 395,
+    "cpu": "Octa-core (2x2.6 GHz Cortex-A78 & 6x2.0 GHz Cortex-A55)",
+    "chipset": "MediaTek Dimensity 1080",
+    "gpu": "Mali-G68 MC4",
+    "memory_card_dedicated": false,
+    "internal_memory": [
+      128,
+      256
+    ],
+    "ram": [
+      6,
+      8,
+      12
+    ],
+    "wifi": "802.11 a/b/g/n/ac/6",
+    "sim": "Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 2.0",
+    "audio_jack": true,
+    "bluetooth_version": 5.2,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 5000,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-note-12-pro.jpg",
+    "camera": [
+      {
+        "mp": 50,
+        "f": 1.9
+      },
+      {
+        "mp": 8,
+        "f": 2.2
+      },
+      {
+        "mp": 2,
+        "f": 2.4
+      }
+    ]
+  },
+  {
+    "model": "ThinkPhone",
+    "brand": "Motorola",
+    "release": "2023-01-05",
+    "height": 158.8,
+    "width": 74.4,
+    "thickness": 8.3,
+    "resolution": "1080 x 2400",
+    "ppi": 399,
+    "cpu": "Octa-core (1x3.19 GHz Cortex-X2 & 3x2.75 GHz Cortex-A710 & 4x1.80 GHz Cortex-A510)",
+    "chipset": "Qualcomm SM8475 Snapdragon 8+ Gen 1",
+    "gpu": "Adreno 730",
+    "memory_card_dedicated": false,
+    "internal_memory": [
+      128,
+      256
+    ],
+    "ram": [
+      8,
+      12
+    ],
+    "wifi": "802.11 a/b/g/n/ac/6e",
+    "sim": "Single SIM (Nano-SIM) or Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 3.1",
+    "audio_jack": false,
+    "bluetooth_version": 5.2,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 5000,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/bigpic/motorola-thinkphone.jpg",
+    "camera": [
+      {
+        "mp": 50,
+        "f": 1.8
+      },
+      {
+        "mp": 13,
+        "f": 2.2
+      },
+      {
+        "mp": 2,
+        "f": 2.4
+      }
+    ]
+  }
+]

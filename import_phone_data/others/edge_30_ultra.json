@@ -1,0 +1,48 @@
+{
+    "model": "Edge 30 Ultra",
+    "brand": "Motorola",
+    "release": "2022-09-08",
+    "height": 161.8,
+    "width": 73.4,
+    "thickness": 8.4,
+    "resolution": "1080 x 2400",
+    "ppi": 395,
+    "cpu": "Octa-core (1x3.19 GHz Cortex-X2 & 3x2.75 GHz Cortex-A710 & 4x1.80 GHz Cortex-A510)",
+    "chipset": "Qualcomm SM8475 Snapdragon 8+ Gen 1",
+    "gpu": "Adreno 730",
+    "memory_card_dedicated": false,
+    "internal_memory": [
+      128,
+      256,
+      512
+    ],
+    "ram": [
+      8,
+      12
+    ],
+    "wifi": "802.11 a/b/g/n/ac/6e",
+    "sim": "Single SIM (Nano-SIM) or Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 3.1",
+    "audio_jack": false,
+    "bluetooth_version": 5.2,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 5610,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/motorola/motorola-edge30-ultra-1.jpg",
+    "camera": [
+      {
+        "mp": 200,
+        "f": 1.9
+      },
+      {
+        "mp": 12,
+        "f": 1.6
+      },
+      {
+        "mp": 50,
+        "f": 2.2
+      }
+    ]
+  }

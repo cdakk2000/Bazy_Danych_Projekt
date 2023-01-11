@@ -1,0 +1,51 @@
+{
+    "model": "Redmi Note 11",
+    "brand": "Xiaomi",
+    "release": "2022-01-26",
+    "height": 159.9,
+    "width": 73.9,
+    "thickness": 8.1,
+    "resolution": "1080 x 2400",
+    "ppi": 409,
+    "cpu": "Octa-core (4x2.4 GHz Kryo 265 Gold & 4x1.9 GHz Kryo 265 Silver)",
+    "chipset": "Qualcomm SM6225 Snapdragon 680 4G",
+    "gpu": "Adreno 610",
+    "memory_card_dedicated": true,
+    "internal_memory": [
+        64,
+        128
+    ],
+    "ram": [
+      4,
+      6
+    ],
+    "wifi": "802.11 a/b/g/n/ac",
+    "sim": "Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 2.0",
+    "audio_jack": true,
+    "bluetooth_version": 5.0,
+    "gps": true,
+    "nfc": true,
+    "radio": true,
+    "battery_capacity": 5000,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-note-11-global.jpg",
+    "camera": [
+      {
+        "mp": 50,
+        "f": 1.8
+      },
+      {
+        "mp": 8,
+        "f": 2.2
+      },
+      {
+        "mp": 2,
+        "f": 2.4
+      },
+      {
+        "mp": 2,
+        "f": 2.4
+      }
+    ]
+  }

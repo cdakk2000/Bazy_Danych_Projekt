@@ -1,0 +1,47 @@
+{
+    "model": "11T Pro",
+    "brand": "Xiaomi",
+    "release": "2021-09-15",
+    "height": 164.1,
+    "width": 76.9,
+    "thickness": 8.8,
+    "resolution": "1080 x 2400",
+    "ppi": 395,
+    "cpu": "Octa-core (1x2.84 GHz Cortex-X1 & 3x2.42 GHz Cortex-A78 & 4x1.80 GHz Cortex-A55)",
+    "chipset": "Qualcomm SM8350 Snapdragon 888 5G",
+    "gpu": "Adreno 660",
+    "memory_card_dedicated": false,
+    "internal_memory": [
+      128,
+      256
+    ],
+    "ram": [
+      8,
+      12
+    ],
+    "wifi": "802.11 a/b/g/n/ac/6",
+    "sim": "Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 2.0",
+    "audio_jack": false,
+    "bluetooth_version": 5.2,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 5000,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/bigpic/xiaomi-11t-pro.jpg",
+    "camera": [
+      {
+        "mp": 108,
+        "f": 1.8
+      },
+      {
+        "mp": 8,
+        "f": 2.2
+      },
+      {
+        "mp": 5,
+        "f": 2.4
+      }
+    ]
+  }

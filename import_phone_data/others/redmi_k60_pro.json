@@ -1,0 +1,49 @@
+{
+    "model": "Redmi K60 Pro",
+    "brand": "Xiaomi",
+    "release": "2023-01-01",
+    "height": 162.8,
+    "width": 75.4,
+    "thickness": 8.6,
+    "resolution": "1440 x 3200",
+    "ppi": 526,
+    "cpu": "Octa-core (1x3.2 GHz Cortex-X3 & 2x2.8 GHz Cortex-A715 & 2x2.8 GHz Cortex-A710 & 3x2.0 GHz Cortex-A510)",
+    "chipset": "Qualcomm SM8550 Snapdragon 8 Gen 2",
+    "gpu": "Adreno 740",
+    "memory_card_dedicated": false,
+    "internal_memory": [
+      128,
+      256,
+      512
+    ],
+    "ram": [
+      8,
+      12,
+      16
+    ],
+    "wifi": "802.11 a/b/g/n/ac/6e",
+    "sim": "Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 2.0",
+    "audio_jack": false,
+    "bluetooth_version": 5.3,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 5000,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-k60-pro.jpg",
+    "camera": [
+      {
+        "mp": 54,
+        "f": 1.9
+      },
+      {
+        "mp": 8,
+        "f": 0
+      },
+      {
+        "mp": 2,
+        "f": 2.4
+      }
+    ]
+  }
