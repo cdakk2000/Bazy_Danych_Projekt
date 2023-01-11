@@ -1,0 +1,51 @@
+{
+  "model": "Galaxy A73 5G",
+  "brand": "Samsung",
+  "release": "2022-04-22",
+  "height": 163.7,
+  "width": 76.1,
+  "thickness": 7.6,
+  "resolution": "1080 x 2400",
+  "ppi": 393,
+  "cpu": "Octa-core (1x2.4 GHz Cortex-A78 & 3x2.2 GHz Cortex-A78 & 4x1.9 GHz Cortex-A55)",
+  "chipset": "Qualcomm SM7325 Snapdragon 778G 5G",
+  "gpu": " Mali-G52",
+  "memory_card_dedicated": false,
+  "internal_memory": [
+    128,
+    256
+  ],
+  "ram": [
+    6,
+    8
+  ],
+  "wifi": "802.11 a/b/g/n/ac/6",
+  "sim": "Single SIM (Nano-SIM) or Hybrid Dual SIM (Nano-SIM, dual stand-by)",
+  "connector": "USB Type-C 2.0",
+  "audio_jack": false,
+  "bluetooth_version": 5.0,
+  "gps": true,
+  "nfc": true,
+  "radio": false,
+  "battery_capacity": 5000,
+  "battery_removable": false,
+  "image_url": "https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-a73-5g.jpg",
+  "camera": [
+    {
+      "mp": 108,
+      "f": 1.8
+    },
+    {
+      "mp": 12,
+      "f": 2.2
+    },
+    {
+      "mp": 5,
+      "f": 2.4
+    },
+    {
+      "mp": 5,
+      "f": 2.4
+    }
+  ]
+}

@@ -1,0 +1,273 @@
+{
+  "id": 483349,
+  "num_rows": 50,
+  "file_format": "json",
+  "name": "phone_db_json",
+  "array": true,
+  "columns": [
+    {
+      "name": "model",
+      "null_percentage": 0,
+      "type": "Character Sequence",
+      "format": "*##",
+      "formula": "array = ['','Pro', 'Max', 'Ultra']\nthis + ' ' + array[random(0,3)]"
+    },
+    {
+      "name": "brand",
+      "null_percentage": 0,
+      "type": "Character Sequence",
+      "format": "Fakephone",
+      "formula": null
+    },
+    {
+      "name": "release",
+      "null_percentage": 0,
+      "type": "Datetime",
+      "min": "01/01/2015",
+      "max": "01/10/2023",
+      "format": "%Y-%m-%d",
+      "formula": null
+    },
+    {
+      "name": "height",
+      "null_percentage": 0,
+      "type": "Number",
+      "min": 140,
+      "max": 180,
+      "decimals": 1,
+      "formula": null
+    },
+    {
+      "name": "width",
+      "null_percentage": 0,
+      "type": "Number",
+      "min": 70,
+      "max": 90,
+      "decimals": 1,
+      "formula": null
+    },
+    {
+      "name": "thickness",
+      "null_percentage": 0,
+      "type": "Number",
+      "min": 10,
+      "max": 5,
+      "decimals": 1,
+      "formula": null
+    },
+    {
+      "name": "resolution",
+      "null_percentage": 0,
+      "type": "Digit Sequence",
+      "format": "1##0 x 8##",
+      "formula": null
+    },
+    {
+      "name": "ppi",
+      "null_percentage": 0,
+      "type": "Number",
+      "min": 300,
+      "max": 600,
+      "decimals": 0,
+      "formula": null
+    },
+    {
+      "name": "cpu",
+      "null_percentage": 0,
+      "type": "Character Sequence",
+      "format": "Septa-core (3x#.# GHz Cortex-@### & #x#.# Ghz Cortex-@###)",
+      "formula": null
+    },
+    {
+      "name": "chipset",
+      "null_percentage": 0,
+      "type": "Character Sequence",
+      "format": "Fakenos ##",
+      "formula": null
+    },
+    {
+      "name": "gpu",
+      "null_percentage": 0,
+      "type": "Character Sequence",
+      "format": "FakePU-*##",
+      "formula": null
+    },
+    {
+      "name": "memory_card_dedicated",
+      "null_percentage": 0,
+      "type": "Boolean",
+      "formula": null
+    },
+    {
+      "name": "internal_memory[1-3]",
+      "null_percentage": 0,
+      "type": "Custom List",
+      "values": [
+        "32",
+        "64",
+        "128",
+        "256",
+        "512"
+      ],
+      "selectionStyle": "random",
+      "distribution": null,
+      "formula": "this.sort()"
+    },
+    {
+      "name": "ram[2-3]",
+      "null_percentage": 0,
+      "type": "Custom List",
+      "values": [
+        "4",
+        "6",
+        "8",
+        "12",
+        "16"
+      ],
+      "selectionStyle": "random",
+      "distribution": null,
+      "formula": "this.sort()"
+    },
+    {
+      "name": "wifi",
+      "null_percentage": 0,
+      "type": "Custom List",
+      "values": [
+        "802.11 a/b/g/n/ac/6e",
+        "802.11 a/b/g/n/ac/6",
+        "802.11 a/b/g/n/ac",
+        "802.11 a/b/g/n"
+      ],
+      "selectionStyle": "random",
+      "distribution": null,
+      "formula": null
+    },
+    {
+      "name": "sim",
+      "null_percentage": 0,
+      "type": "Custom List",
+      "values": [
+        "Nano-SIM",
+        "eSIM",
+        "Pico SIM"
+      ],
+      "selectionStyle": "random",
+      "distribution": null,
+      "formula": "'Single SIM ('+this+')'"
+    },
+    {
+      "name": "connector",
+      "null_percentage": 0,
+      "type": "Custom List",
+      "values": [
+        "X",
+        "2.0",
+        "3.0",
+        "3.1",
+        "3.2"
+      ],
+      "selectionStyle": "random",
+      "distribution": null,
+      "formula": "if this == 'X' then 'MicroUSB'\nelse 'USB Type-C ' + this end"
+    },
+    {
+      "name": "audio_jack",
+      "null_percentage": 0,
+      "type": "Boolean",
+      "formula": null
+    },
+    {
+      "name": "bluetooth_version",
+      "null_percentage": 0,
+      "type": "Custom List",
+      "values": [
+        "4.0",
+        "4.9",
+        "5.1",
+        "5.2"
+      ],
+      "selectionStyle": "random",
+      "distribution": null,
+      "formula": null
+    },
+    {
+      "name": "gps",
+      "null_percentage": 0,
+      "type": "Boolean",
+      "formula": null
+    },
+    {
+      "name": "nfc",
+      "null_percentage": 0,
+      "type": "Boolean",
+      "formula": null
+    },
+    {
+      "name": "radio",
+      "null_percentage": 0,
+      "type": "Boolean",
+      "formula": null
+    },
+    {
+      "name": "battery_capacity",
+      "null_percentage": 0,
+      "type": "Number",
+      "min": 3000,
+      "max": 6000,
+      "decimals": 0,
+      "formula": null
+    },
+    {
+      "name": "battery_removable",
+      "null_percentage": 0,
+      "type": "Boolean",
+      "formula": null
+    },
+    {
+      "name": "image_url",
+      "null_percentage": 0,
+      "type": "Dummy Image URL",
+      "minHeight": 212,
+      "maxHeight": 212,
+      "minWidth": 160,
+      "maxWidth": 160,
+      "format": "png",
+      "formula": null
+    },
+    {
+      "name": "camera",
+      "null_percentage": 0,
+      "type": "JSON Array",
+      "minItems": 1,
+      "maxItems": 4,
+      "formula": ""
+    },
+    {
+      "name": "camera.mp",
+      "null_percentage": 0,
+      "type": "Custom List",
+      "values": [
+        "2",
+        "2",
+        "4",
+        "5",
+        "12",
+        "48",
+        "50",
+        "64"
+      ],
+      "selectionStyle": "random",
+      "distribution": null,
+      "formula": null
+    },
+    {
+      "name": "camera.f",
+      "null_percentage": 0,
+      "type": "Number",
+      "min": 1,
+      "max": 3,
+      "decimals": 1,
+      "formula": null
+    }
+  ]
+}
