@@ -1,26 +1,53 @@
-/*!
-    * Start Bootstrap - SB Admin v7.0.5 (https://startbootstrap.com/template/sb-admin)
-    * Copyright 2013-2022 Start Bootstrap
-    * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-sb-admin/blob/master/LICENSE)
-    */
-    // 
-// Scripts
-// 
+// $(document).ready(function() {
+//     $("#phone1_brand").change(function() {
+//         var mark_id = $(this).val();
+//         $.ajax({
+//             url: '/models_brand_view/',
+//             data: {
+//                 'mark_id': mark_id
+//             },
+//             success: function(data) {
+//                 $("#phone1_model").html(data);
+//             }
+//         });
+//     });
+// });
 
-window.addEventListener('DOMContentLoaded', event => {
+// document.getElementById("phone1_brand").addEventListener("change", function(){
+//     document.getElementById("phone1_model").innerHTML = "";
+//     $.ajax({
+//         type: 'GET',
+//         url: "get-models/",
+//         data: {
+//             phone1_brand: $("#d_phone1_brand").val(),
+//         },
+//         dataType: 'json',
+//         success:function(response){
+//             var select = document.getElementById("phone1_model");
+//             for (var i=0; i<response.json_models.length; i++)
+//             {
+//                 var option = document.createElement("option");
+//                 option.value = response.json_models[i]["Models_Name"];
+//                 option.innerHTML = response.json_models[i]["Models_Name"];
+//                 select.appendChild(option);
+//             }
+//         }
+//     })
+// })
 
-    // Toggle the side navigation
-    const sidebarToggle = document.body.querySelector('#sidebarToggle');
-    if (sidebarToggle) {
-        // Uncomment Below to persist sidebar toggle between refreshes
-        // if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
-        //     document.body.classList.toggle('sb-sidenav-toggled');
-        // }
-        sidebarToggle.addEventListener('click', event => {
-            event.preventDefault();
-            document.body.classList.toggle('sb-sidenav-toggled');
-            localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+$(document).ready(function(){
+    console.log("jestem w funkcji")
+    $("#phone1_brand-selector").change(function(){
+        var brandId = $(this).val();
+        console.log(brandId)
+        $.post("/porownywarka/", {brand_id: brandId}, function(data){
+            var modelSelect = $("#phone1_model");
+            modelSelect.empty();
+            data.models.forEach(function(model){
+                modelSelect.append($("<option>").val(model.id).text(model.name));
+            });
         });
-    }
-
+    });
 });
+
+console.log("jestem poza funckja")
