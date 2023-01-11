@@ -94,6 +94,7 @@ def connect():
 def main():
     import_phones("samsung/samsung.json")
     import_phones("fakephone/phone_db_json.json")
+    import_phones("others/others.json")
 
 
 if __name__ == "__main__":
