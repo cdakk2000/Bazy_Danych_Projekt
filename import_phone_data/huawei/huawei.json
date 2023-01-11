@@ -1,0 +1,808 @@
+[
+    {
+    "model": "Mate 50 Pro",
+    "brand": "Huawei",
+    "release": "2022-09-28",
+    "height": 162.1,
+    "width": 75.5,
+    "thickness": 8.5,
+    "resolution": "1212x2616",
+    "ppi": 428,
+    "cpu": "Octa-core (1x3.19 GHz Cortex-X2 & 3x2.75 GHz Cortex-A710 & 4x2.0 GHz Cortex-A510)",
+    "chipset": "Qualcomm SM8475 Snapdragon 8+ Gen 1 4G",
+    "gpu": "Adreno 730",
+    "memory_card_dedicated": true,
+    "internal_memory": [
+      256,
+      512
+    ],
+    "ram": [
+      8
+    ],
+    "wifi": "802.11 a/b/g/n/ac/6",
+    "sim": "Single SIM (Nano-SIM) or Hybrid Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 3.1, OTG, Display Port 1.2",
+    "audio_jack": false,
+    "bluetooth_version": 5.2,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 4700,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/huawei/huawei-mate-50-pro-1.jpg",
+    "camera": [
+      {
+        "mp": 50,
+        "f": 4.0
+      },
+      {
+        "mp": 64,
+        "f": 3.5
+      },
+      {
+        "mp": 13,
+        "f": 2.2
+      }
+    ]
+  },    
+    {
+    "model": "P30",
+    "brand": "Huawei",
+    "release": "2022-03-26",
+    "height": 149.1,
+    "width": 71.4,
+    "thickness": 7.6,
+    "resolution": "1080x2340",
+    "ppi": 422,
+    "cpu": "Octa-core (2x2.6 GHz Cortex-A76 & 2x1.92 GHz Cortex-A76 & 4x1.8 GHz Cortex-A55)",
+    "chipset": "Kirin 980",
+    "gpu": "Mali-G76 MP10",
+    "memory_card_dedicated": true,
+    "internal_memory": [
+      64,
+      128,
+      256
+    ],
+    "ram": [
+      6,
+      8
+    ],
+    "wifi": "802.11 a/b/g/n/ac",
+    "sim": "Single SIM (Nano-SIM) or Hybrid Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 3.1",
+    "audio_jack": true,
+    "bluetooth_version": 5.0,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 3650,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/huawei/huawei-p30-1.jpg",
+    "camera": [
+      {
+        "mp": 40,
+        "f": 1.8
+      },
+      {
+        "mp": 8,
+        "f": 2.4
+      },
+      {
+        "mp": 16,
+        "f": 2.2
+      }
+    ]
+  },
+    {
+    "model": "nova 9 SE",
+    "brand": "Huawei",
+    "release": "2022-03-20",
+    "height": 164.6,
+    "width": 75.6,
+    "thickness": 7.9,
+    "resolution": "1080x2388",
+    "ppi": 387,
+    "cpu": "Octa-core (4x2.4 GHz Kryo 265 Gold & 4x1.9 GHz Kryo 265 Silver)",
+    "chipset": "Qualcomm SM6225 Snapdragon 680 4G",
+    "gpu": "Adreno 610",
+    "memory_card_dedicated": true,
+    "internal_memory": [
+      128,
+      256
+    ],
+    "ram": [
+      6,
+      8
+    ],
+    "wifi": "802.11 a/b/g/n/ac",
+    "sim": "Hybrid Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 2.0, OTG",
+    "audio_jack": false,
+    "bluetooth_version": 5.0,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 4000,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/huawei/huawei-nova-9-se-1.jpg",
+    "camera": [
+      {
+        "mp": 108,
+        "f": 1.9
+      },
+      {
+        "mp": 8,
+        "f": 2.2
+      },
+      {
+        "mp": 2,
+        "f": 2.4
+      },
+      {
+        "mp": 2,
+        "f": 2.4
+      }
+    ]
+  },
+    {
+    "model": "P40 lite",
+    "brand": "Huawei",
+    "release": "2020-03-02",
+    "height": 159.2,
+    "width": 76.3,
+    "thickness": 8.7,
+    "resolution": "1080x2310",
+    "ppi": 398,
+    "cpu": "Octa-core (2x2.27 GHz Cortex-A76 & 6x1.88 GHz Cortex-A55)",
+    "chipset": "Kirin 810",
+    "gpu": "Mali-G52 MP6",
+    "memory_card_dedicated": true,
+    "internal_memory": [
+      128
+    ],
+    "ram": [
+      6,
+      8
+    ],
+    "wifi": "802.11 a/b/g/n/ac",
+    "sim": "Hybrid Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Ty802.12.0, OTG",
+    "audio_jack": true,
+    "bluetooth_version": 5.0,
+    "gps": true,
+    "nfc": true,
+    "radio": true,
+    "battery_capacity": 4200,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/huawei/huawei-p40-lite-1.jpg",
+    "camera": [
+      {
+        "mp": 48,
+        "f": 1.8
+      },
+      {
+        "mp": 8,
+        "f": 2.4
+      },
+      {
+        "mp": 2,
+        "f": 2.4
+      },
+      {
+        "mp": 2,
+        "f": 2.4
+      }
+    ]
+  },
+    {
+    "model": "P20 Pro",
+    "brand": "Huawei",
+    "release": "2018-04-06",
+    "height": 155,
+    "width": 73.9,
+    "thickness": 7.8,
+    "resolution": "1080x2240",
+    "ppi": 408,
+    "cpu": "Octa-core (4x2.4 GHz Cortex-A73 & 4x1.8 GHz Cortex-A53)",
+    "chipset": "Kirin 970",
+    "gpu": "Mali-G72 MP12",
+    "memory_card_dedicated": false,
+    "internal_memory": [
+      64,
+      128,
+      256
+    ],
+    "ram": [
+      6,
+      8
+    ],
+    "wifi": "802.11 a/b/g/n/ac",
+    "sim": "Single SIM (Nano-SIM) or Hybrid Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 3.1",
+    "audio_jack": false,
+    "bluetooth_version": 4.2,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 4000,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/huawei/huawei-p20-pro-1.jpg",
+    "camera": [
+      {
+        "mp": 40,
+        "f": 1.8
+      },
+      {
+        "mp": 8,
+        "f": 2.4
+      },
+      {
+        "mp": 20,
+        "f": 1.6
+      }
+    ]
+  },
+    {
+    "model": "nova 10 SE",
+    "brand": "Huawei",
+    "release": "2022-10-25",
+    "height": 162.4,
+    "width": 75.5,
+    "thickness":7.64,
+    "resolution": "1080x2400",
+    "ppi": 395,
+    "cpu": "Octa-core (4x2.4 GHz Cortex-A73 & 4x1.9 GHz Cortex-A53)",
+    "chipset": "Qualcomm Snapdragon 680G 4G",
+    "gpu": "Adreno 610",
+    "memory_card_dedicated": false,
+    "internal_memory": [
+      128,
+      256
+    ],
+    "ram": [
+      6,
+      8
+    ],
+    "wifi": "802.11 a/b/g/n/ac",
+    "sim": "Single SIM (Nano-SIM) or Hybrid Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 2.0, OTG",
+    "audio_jack": false,
+    "bluetooth_version": 5.0,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 4500,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/huawei/huawei-nova10-se-1.jpg",
+    "camera": [
+      {
+        "mp": 108,
+        "f": 1.9
+      },
+      {
+        "mp": 8,
+        "f": 2.2
+      },
+      {
+        "mp": 2,
+        "f": 2.4
+      }
+    ]
+  },
+    {
+    "model": "P50 Pro",
+    "brand": "Huawei",
+    "release": "2021-08-12",
+    "height": 158.8,
+    "width": 72.8,
+    "thickness": 8.5,
+    "resolution": "1228x2700",
+    "ppi": 450,
+    "cpu": "Octa-core (1x3.13 GHz Cortex-A77 & 3x2.54 GHz Cortex-A77 & 4x2.05 GHz Cortex-A55)",
+    "chipset": "Kirin 9000",
+    "gpu": "Mali-G78 MP24",
+    "memory_card_dedicated": true,
+    "internal_memory": [
+      128,
+      256,
+      512
+    ],
+    "ram": [
+      8,
+      12
+    ],
+    "wifi": "802.11 a/b/g/n/ac/6",
+    "sim": "Single SIM (Nano-SIM) or Hybrid Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 3.1, OTG",
+    "audio_jack": false,
+    "bluetooth_version": 5.2,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 4360,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/huawei/huawei-p50-pro-0.jpg",
+    "camera": [
+      {
+        "mp": 50,
+        "f": 1.8
+      },
+      {
+        "mp": 64,
+        "f": 3.5
+      },
+      {
+        "mp": 13,
+        "f": 2.2
+      },
+      {
+        "mp": 13,
+        "f": 2.2
+      }
+    ]
+  },
+    {
+    "model": "Mate 50",
+    "brand": "Huawei",
+    "release": "2022-09-28",
+    "height": 161.5,
+    "width": 76.1,
+    "thickness": 8,
+    "resolution": "1224x2700",
+    "ppi": 442,
+    "cpu": "Octa-core (1x3.19 GHz Cortex-X2 & 3x2.75 GHz Cortex-A710 & 4x2.0 GHz Cortex-A510)",
+    "chipset": "Qualcomm SM8475 Snapdragon 8+ Gen 1 4G",
+    "gpu": "Adreno 730",
+    "memory_card_dedicated": true,
+    "internal_memory": [
+      128,
+      256,
+      512
+    ],
+    "ram": [
+      8
+    ],
+    "wifi": "802.11 a/b/g/n/ac/6",
+    "sim": "Single SIM (Nano-SIM) or Hybrid Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 3.1, OTG, Display Port 1.2",
+    "audio_jack": false,
+    "bluetooth_version": 5.2,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 4460,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/huawei/huawei-mate-50-1.jpg",
+    "camera": [
+      {
+        "mp": 50,
+        "f": 4.0
+      },
+      {
+        "mp": 12,
+        "f": 3.4
+      },
+      {
+        "mp": 13,
+        "f": 2.2
+      }
+    ]
+  },
+    {
+    "model": "Pocket S",
+    "brand": "Huawei",
+    "release": "2022-11-11",
+    "height": 170,
+    "width": 75.5,
+    "thickness": 7.2,
+    "resolution": "1188x2790",
+    "ppi": 442,
+    "cpu": "Octa-core (4x2.4 GHz Kryo 670 & 4x1.8 GHz Kryo 670)",
+    "chipset": "Qualcomm SM7325 Snapdragon 778G 4G",
+    "gpu": "Adreno 642L",
+    "memory_card_dedicated": true,
+    "internal_memory": [
+      128,
+      256, 
+      512
+    ],
+    "ram": [
+      8
+    ],
+    "wifi": "802.11 a/b/g/n/ac/6",
+    "sim": "Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 2.0, OTG",
+    "audio_jack": false,
+    "bluetooth_version": 5.2,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 4000,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/huawei/huawei-pocket-s-1.jpg",
+    "camera": [
+      {
+        "mp": 40,
+        "f": 1.8
+      },
+      {
+        "mp": 13,
+        "f": 2.2
+      }
+    ]
+  },
+    {
+    "model": "P20",
+    "brand": "Huawei",
+    "release": "2018-04-06",
+    "height": 149.1,
+    "width": 70.8,
+    "thickness": 7.7,
+    "resolution": "1080x2240",
+    "ppi": 429,
+    "cpu": "Octa-core (4x2.4 GHz Cortex-A73 & 4x1.8 GHz Cortex-A53)",
+    "chipset": "Kirin 970",
+    "gpu": "Mali-G72 MP12",
+    "memory_card_dedicated": false,
+    "internal_memory": [
+      64,
+      128
+    ],
+    "ram": [
+      4,
+      6
+    ],
+    "wifi": "802.11 a/b/g/n/ac",
+    "sim": "Single SIM (Nano-SIM) or Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 3.1",
+    "audio_jack": false,
+    "bluetooth_version": 4.2,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 3400,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/huawei/huawei-p20-3.jpg",
+    "camera": [
+      {
+        "mp": 12,
+        "f": 1.8
+      },
+      {
+        "mp": 20,
+        "f": 1.6
+      }
+    ]
+  },
+    {
+    "model": "nova 5T",
+    "brand": "Huawei",
+    "release": "2019-09-05",
+    "height": 154.3,
+    "width": 74,
+    "thickness": 7.8,
+    "resolution": "1080x2340",
+    "ppi": 412,
+    "cpu": "Octa-core (2x2.6 GHz Cortex-A76 & 2x1.92 GHz Cortex-A76 & 4x1.8 GHz Cortex-A55)",
+    "chipset": "Kirin 980",
+    "gpu": "Mali-G76 MP10",
+    "memory_card_dedicated": false,
+    "internal_memory": [
+      128
+    ],
+    "ram": [
+      6,
+      8
+    ],
+    "wifi": "802.11 a/b/g/n/ac",
+    "sim": "Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 2.0, OTG",
+    "audio_jack": false,
+    "bluetooth_version": 5.0,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 3750,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/huawei/huawei-nova-5t-2.jpg",
+    "camera": [
+      {
+        "mp": 48,
+        "f": 1.8
+      },
+      {
+        "mp": 16,
+        "f": 2.2
+      },
+      {
+        "mp": 2,
+        "f": 2.4
+      },
+      {
+        "mp": 2,
+        "f": 2.4
+      }
+    ]
+  },
+    {
+    "model": "Y9 Prime (2019)",
+    "brand": "Huawei",
+    "release": "2019-08-05",
+    "height": 163.5,
+    "width": 77.3,
+    "thickness": 8.9,
+    "resolution": "1080x2340",
+    "ppi": 391,
+    "cpu": "Octa-core (4x2.2 GHz Cortex-A73 & 4x1.7 GHz Cortex-A53)",
+    "chipset": "Kirin 710F",
+    "gpu": "Mali-G51 MP4",
+    "memory_card_dedicated": true,
+    "internal_memory": [
+      64,
+      128
+    ],
+    "ram": [
+      4
+    ],
+    "wifi": "802.11 a/b/g/n/ac",
+    "sim": "Single SIM (Nano-SIM) or Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 2.0, OTG",
+    "audio_jack": true,
+    "bluetooth_version": 5.0,
+    "gps": true,
+    "nfc": false,
+    "radio": true,
+    "battery_capacity": 4000,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/huawei/huawei-y9-prime-2019-1.jpg",
+    "camera": [
+      {
+        "mp": 16,
+        "f": 1.8
+      },
+      {
+        "mp": 8,
+        "f": 2.4
+      },
+      {
+        "mp": 2,
+        "f": 2.4
+      }
+    ]
+  },
+    {
+    "model": "P30 Pro",
+    "brand": "Huawei",
+    "release": "2019-03-26",
+    "height": 158,
+    "width": 73.4,
+    "thickness": 8.4,
+    "resolution": "1080x2340",
+    "ppi": 398,
+    "cpu": "Octa-core (2x2.6 GHz Cortex-A76 & 2x1.92 GHz Cortex-A76 & 4x1.8 GHz Cortex-A55)",
+    "chipset": "Kirin 980",
+    "gpu": "Mali-G76 MP10",
+    "memory_card_dedicated": true,
+    "internal_memory": [
+      128,
+      256,
+      512
+    ],
+    "ram": [
+      6,
+      8
+    ],
+    "wifi": "802.11 a/b/g/n/ac",
+    "sim": "Single SIM (Nano-SIM) or Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 3.1",
+    "audio_jack": false,
+    "bluetooth_version": 5.0,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 4200,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/huawei/huawei-p30-pro-1.jpg",
+    "camera": [
+      {
+        "mp": 40,
+        "f": 1.6
+      },
+      {
+        "mp": 8,
+        "f": 3.4
+      },
+      {
+        "mp": 20,
+        "f": 2.2
+      }
+    ]
+  },
+    {
+    "model": "Mate 20 Pro",
+    "brand": "Huawei",
+    "release": "2018-10-31",
+    "height": 157.8,
+    "width": 72.3,
+    "thickness": 8.6,
+    "resolution": "1440x3120",
+    "ppi": 538,
+    "cpu": "Octa-core (2x2.6 GHz Cortex-A76 & 2x1.92 GHz Cortex-A76 & 4x1.8 GHz Cortex-A55)",
+    "chipset": "Kirin 980",
+    "gpu": "Mali-G76 MP10",
+    "memory_card_dedicated": true,
+    "internal_memory": [
+      128,
+      256
+    ],
+    "ram": [
+      6,
+      8
+    ],
+    "wifi": "802.11 a/b/g/n/ac",
+    "sim": "Single SIM (Nano-SIM) or Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 3.1, OTG",
+    "audio_jack": false,
+    "bluetooth_version": 5.0,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 4200,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/huawei/huawei-mate20-pro-1.jpg",
+    "camera": [
+      {
+        "mp": 40,
+        "f": 1.8
+      },
+      {
+        "mp": 8,
+        "f": 2.4
+      },
+      {
+        "mp": 20,
+        "f": 2.2
+      }
+    ]
+  },
+    {
+    "model": "Mate 40 Pro",
+    "brand": "Huawei",
+    "release": "2020-11-01",
+    "height": 162.9,
+    "width": 75.5,
+    "thickness": 9.1,
+    "resolution": "1344x2772",
+    "ppi": 456,
+    "cpu": "Octa-core (1x3.13 GHz Cortex-A77 & 3x2.54 GHz Cortex-A77 & 4x2.05 GHz Cortex-A55)",
+    "chipset": "Kirin 9000 5G",
+    "gpu": "Mali-G78 MP24",
+    "memory_card_dedicated": true,
+    "internal_memory": [
+      128,
+      256,
+      512
+    ],
+    "ram": [
+      8
+    ],
+    "wifi": "802.11 a/b/g/n/ac/6",
+    "sim": "Nano-SIM and eSIM or Hybrid Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 3.1, OTG",
+    "audio_jack": false,
+    "bluetooth_version": 5.2,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 4400,
+    "battery_removable": false,
+    "image_url": "httpshttps://fdn2.gsmarena.com/vv/pics/huawei/huawei-mate40-pro-1.jpg",
+    "camera": [
+      {
+        "mp": 50,
+        "f": 1.9
+      },
+      {
+        "mp": 12,
+        "f": 3.4
+      },
+      {
+        "mp": 40,
+        "f": 1.8
+      }
+    ]
+  },
+    {
+    "model": "P50",
+    "brand": "Huawei",
+    "release": "2021-10-04",
+    "height": 156.5,
+    "width": 73.8,
+    "thickness": 7.9,
+    "resolution": "1224x2700",
+    "ppi": 458,
+    "cpu": "Octa-core (1x2.84 GHz Cortex-X1 & 3x2.42 GHz Cortex-A78 & 4x1.80 GHz Cortex-A55)",
+    "chipset": "ualcomm SM8350 Snapdragon 888 4G",
+    "gpu": "Adreno 660",
+    "memory_card_dedicated": true,
+    "internal_memory": [
+      128,
+      256
+    ],
+    "ram": [
+      8
+    ],
+    "wifi": "802.11 a/b/g/n/ac/6",
+    "sim": "Hybrid Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 3.1, OTG",
+    "audio_jack": false,
+    "bluetooth_version": 5.2,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 4100,
+    "battery_removable": false,
+    "image_url": "httpshttps://fdn2.gsmarena.com/vv/pics/huawei/huawei-p50-1.jpg",
+    "camera": [
+      {
+        "mp": 50,
+        "f": 1.8
+      },
+      {
+        "mp": 12,
+        "f": 3.4
+      },
+      {
+        "mp": 13,
+        "f": 2.2
+      }
+    ]
+  }, 
+    {
+    "model": "P40 Pro",
+    "brand": "Huawei",
+    "release": "2020-04-07",
+    "height": 158.2,
+    "width": 72.6,
+    "thickness": 9,
+    "resolution": "1200x2640",
+    "ppi": 441,
+    "cpu": "Octa-core (2x2.86 GHz Cortex-A76 & 2x2.36 GHz Cortex-A76 & 4x1.95 GHz Cortex-A55)",
+    "chipset": "Kirin 990 5G",
+    "gpu": "Mali-G76 MP16",
+    "memory_card_dedicated": true,
+    "internal_memory": [
+      128,
+      256,
+      512
+    ],
+    "ram": [
+      8
+    ],
+    "wifi": "802.11 a/b/g/n/ac/6",
+    "sim": "Nano-SIM and eSIM or Hybrid Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 3.1, OTG",
+    "audio_jack": false,
+    "bluetooth_version": 5.1,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 4200,
+    "battery_removable": false,
+    "image_url": "httpshttps://fdn2.gsmarena.com/vv/pics/huawei/huawei-p40-pro-01.jpg",
+    "camera": [
+      {
+        "mp": 50,
+        "f": 1.9
+      },
+      {
+        "mp": 12,
+        "f": 3.4
+      },
+      {
+        "mp": 40,
+        "f": 1.8
+      }
+    ]
+  }
+]

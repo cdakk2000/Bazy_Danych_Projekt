@@ -1,0 +1,48 @@
+{
+    "model": "Mate 50",
+    "brand": "Huawei",
+    "release": "2022-09-28",
+    "height": 161.5,
+    "width": 76.1,
+    "thickness": 8,
+    "resolution": "1224x2700",
+    "ppi": 442,
+    "cpu": "Octa-core (1x3.19 GHz Cortex-X2 & 3x2.75 GHz Cortex-A710 & 4x2.0 GHz Cortex-A510)",
+    "chipset": "Qualcomm SM8475 Snapdragon 8+ Gen 1 4G",
+    "gpu": "Adreno 730",
+    "memory_card_dedicated": true,
+    "internal_memory": [
+      128,
+      256,
+      512
+    ],
+    "ram": [
+      8
+    ],
+    "wifi": "802.11 a/b/g/n/ac/6",
+    "sim": "Single SIM (Nano-SIM) or Hybrid Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 3.1, OTG, Display Port 1.2",
+    "audio_jack": false,
+    "bluetooth_version": 5.2,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 4460,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/huawei/huawei-mate-50-1.jpg",
+    "camera": [
+      {
+        "mp": 50,
+        "f": 4.0
+      },
+      {
+        "mp": 12,
+        "f": 3.4
+      },
+      {
+        "mp": 13,
+        "f": 2.2
+      }
+    ]
+  }
+  
