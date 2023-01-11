@@ -8,7 +8,8 @@ from dotenv import load_dotenv
 
 
 def import_phones(path):
-    conn = connect()
+    conn = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
+
     phones = load_data(path)
     with conn, conn.cursor() as cur:
         for p in phones:

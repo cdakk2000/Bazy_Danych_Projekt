@@ -1,7 +1,7 @@
 import psycopg2
 from django.shortcuts import render, redirect
 from django.views import View
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 
 from .forms import LoginForm, OptionsForm, SearchForm
 
@@ -70,11 +70,29 @@ class Compare(View):
     def get(self, request):
         return render(request, self.template)
 
+    def phone_brands_models(request):
+        connection = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
+        if request.method == 'GET':
+            cursor = connection.cursor()
+            cursor.execute("SELECT brand_id, name FROM brand;")
+            brands = cursor.fetchall()
+            cursor.execute("SELECT phone_id, model, brand_id FROM phone")
+            models = cursor.fetchall()
+            return render(request, 'porownywarka.html', {'brands': brands, 'models': models})
+        elif request.method == 'POST':
+            brand_id = request.POST.get('brand_id')
+            cursor = connection.cursor()
+            cursor.execute("SELECT phone_id, model FROM phone WHERE brand_id = %s", [brand_id])
+            models = cursor.fetchall()
+            return JsonResponse({'models': models}, safe=False)
+
 class SaveSearch(View):
     template = "savesearch.html"
     def get(self, request):
         form = SearchForm()
         return render(request, self.template, {"form":form})
+
+
 
 class Admin(View):
     template = 'admin.html'
@@ -82,6 +100,7 @@ class Admin(View):
         return render(request, self.template)
     def post(self, request):
         pass
+
 
 #class Database(View):
 #    template = 'database.html'

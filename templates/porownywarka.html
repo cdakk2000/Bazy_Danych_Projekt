@@ -29,23 +29,17 @@
           {% endfor %}
       </select>
         <select id="phone1_model-selector" name="phone1_model">
-{#        {%for row in choices %}#}
-{#          <option value="{{ row.1 }}">{{ row.1 }}</option>#}
-{#          {% endfor %}#}
+
       </select>
       <br>
       <label for="phone2">Telefon 2:</label>
-      <select id="phone2_brand" name="phone2_brand">
-        <option value="iphone11">Apple</option>
-        <option value="galaxys10">Samsung</option>
-        <option value="googlepixel4">Google</option>
-        <option value="oneplus7t">OnePlus</option>
+      <select id="phone2_brand-selector" name="phone2_brand">
+        {% for brand in brands %}
+          <option value="{{ brand.0 }}">{{ brand.1 }}</option>
+          {% endfor %}
       </select>
-        <select id="phone2_model" name="phone2_model">
-        <option value="iphone11">iPhone 11</option>
-        <option value="galaxys10">Galaxy S10</option>
-        <option value="googlepixel4">Pixel 4</option>
-        <option value="oneplus7t">7T</option>
+        <select id="phone2_model-selector" name="phone1_model">
+
       </select>
       <br>
       <input type="submit" value="Porównaj">
@@ -59,7 +53,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function(){
-    console.log("jestem w funkcji")
+    //console.log("jestem w funkcji")
     $("#phone1_brand-selector").change(function(){
         var brandId = $(this).val();
         var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
@@ -74,6 +68,32 @@
           success: function(data){
               //console.log(data);
             var modelSelect = $("#phone1_model-selector");
+            modelSelect.empty();
+            data.models.forEach(function(model){
+               // console.log("models: " + model[1])
+                modelSelect.append($("<option>").val(model[0]).text(model[1]));
+            });
+          }
+        });
+    });
+});
+
+    $(document).ready(function(){
+    //console.log("jestem w funkcji")
+    $("#phone2_brand-selector").change(function(){
+        var brandId = $(this).val();
+        var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+        //console.log(brandId)
+        $.ajax({
+          type: "POST",
+          url: "/porownywarka/",
+          data: {brand_id: brandId},
+          beforeSend: function(xhr, settings) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+          },
+          success: function(data){
+              //console.log(data);
+            var modelSelect = $("#phone2_model-selector");
             modelSelect.empty();
             data.models.forEach(function(model){
                // console.log("models: " + model[1])
