@@ -1,0 +1,48 @@
+{
+    "model": "nova 10 SE",
+    "brand": "Huawei",
+    "release": "2022-10-25",
+    "height": 162.4,
+    "width": 75.5,
+    "thickness":7.64,
+    "resolution": "1080x2400",
+    "ppi": 395,
+    "cpu": "Octa-core (4x2.4 GHz Cortex-A73 & 4x1.9 GHz Cortex-A53)",
+    "chipset": "Qualcomm Snapdragon 680G 4G",
+    "gpu": "Adreno 610",
+    "memory_card_dedicated": false,
+    "internal_memory": [
+      128,
+      256
+    ],
+    "ram": [
+      6,
+      8
+    ],
+    "wifi": "802.11 a/b/g/n/ac",
+    "sim": "Single SIM (Nano-SIM) or Hybrid Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 2.0, OTG",
+    "audio_jack": false,
+    "bluetooth_version": 5.0,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 4500,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/huawei/huawei-nova10-se-1.jpg",
+    "camera": [
+      {
+        "mp": 108,
+        "f": 1.9
+      },
+      {
+        "mp": 8,
+        "f": 2.2
+      },
+      {
+        "mp": 2,
+        "f": 2.4
+      }
+    ]
+  }
+  

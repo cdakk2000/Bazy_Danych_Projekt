@@ -1,0 +1,52 @@
+{
+    "model": "nova 9 SE",
+    "brand": "Huawei",
+    "release": "2022-03-20",
+    "height": 164.6,
+    "width": 75.6,
+    "thickness": 7.9,
+    "resolution": "1080x2388",
+    "ppi": 387,
+    "cpu": "Octa-core (4x2.4 GHz Kryo 265 Gold & 4x1.9 GHz Kryo 265 Silver)",
+    "chipset": "Qualcomm SM6225 Snapdragon 680 4G",
+    "gpu": "Adreno 610",
+    "memory_card_dedicated": true,
+    "internal_memory": [
+      128,
+      256
+    ],
+    "ram": [
+      6,
+      8
+    ],
+    "wifi": "802.11 a/b/g/n/ac",
+    "sim": "Hybrid Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 2.0, OTG",
+    "audio_jack": false,
+    "bluetooth_version": 5.0,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 4000,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/huawei/huawei-nova-9-se-1.jpg",
+    "camera": [
+      {
+        "mp": 108,
+        "f": 1.9
+      },
+      {
+        "mp": 8,
+        "f": 2.2
+      },
+      {
+        "mp": 2,
+        "f": 2.4
+      },
+      {
+        "mp": 2,
+        "f": 2.4
+      }
+    ]
+  }
+  

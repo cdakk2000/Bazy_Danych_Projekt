@@ -1,0 +1,47 @@
+{
+    "model": "Y9 Prime (2019)",
+    "brand": "Huawei",
+    "release": "2019-08-05",
+    "height": 163.5,
+    "width": 77.3,
+    "thickness": 8.9,
+    "resolution": "1080x2340",
+    "ppi": 391,
+    "cpu": "Octa-core (4x2.2 GHz Cortex-A73 & 4x1.7 GHz Cortex-A53)",
+    "chipset": "Kirin 710F",
+    "gpu": "Mali-G51 MP4",
+    "memory_card_dedicated": true,
+    "internal_memory": [
+      64,
+      128
+    ],
+    "ram": [
+      4
+    ],
+    "wifi": "802.11 a/b/g/n/ac",
+    "sim": "Single SIM (Nano-SIM) or Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 2.0, OTG",
+    "audio_jack": true,
+    "bluetooth_version": 5.0,
+    "gps": true,
+    "nfc": false,
+    "radio": true,
+    "battery_capacity": 4000,
+    "battery_removable": false,
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/huawei/huawei-y9-prime-2019-1.jpg",
+    "camera": [
+      {
+        "mp": 16,
+        "f": 1.8
+      },
+      {
+        "mp": 8,
+        "f": 2.4
+      },
+      {
+        "mp": 2,
+        "f": 2.4
+      }
+    ]
+  }
+  

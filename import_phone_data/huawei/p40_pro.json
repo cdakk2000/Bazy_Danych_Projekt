@@ -1,0 +1,48 @@
+{
+    "model": "P40 Pro",
+    "brand": "Huawei",
+    "release": "2020-04-07",
+    "height": 158.2,
+    "width": 72.6,
+    "thickness": 9,
+    "resolution": "1200x2640",
+    "ppi": 441,
+    "cpu": "Octa-core (2x2.86 GHz Cortex-A76 & 2x2.36 GHz Cortex-A76 & 4x1.95 GHz Cortex-A55)",
+    "chipset": "Kirin 990 5G",
+    "gpu": "Mali-G76 MP16",
+    "memory_card_dedicated": true,
+    "internal_memory": [
+      128,
+      256,
+      512
+    ],
+    "ram": [
+      8
+    ],
+    "wifi": "802.11 a/b/g/n/ac/6",
+    "sim": "Nano-SIM and eSIM or Hybrid Dual SIM (Nano-SIM, dual stand-by)",
+    "connector": "USB Type-C 3.1, OTG",
+    "audio_jack": false,
+    "bluetooth_version": 5.1,
+    "gps": true,
+    "nfc": true,
+    "radio": false,
+    "battery_capacity": 4200,
+    "battery_removable": false,
+    "image_url": "httpshttps://fdn2.gsmarena.com/vv/pics/huawei/huawei-p40-pro-01.jpg",
+    "camera": [
+      {
+        "mp": 50,
+        "f": 1.9
+      },
+      {
+        "mp": 12,
+        "f": 3.4
+      },
+      {
+        "mp": 40,
+        "f": 1.8
+      }
+    ]
+  }
+  
