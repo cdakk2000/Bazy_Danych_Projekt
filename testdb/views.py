@@ -61,6 +61,7 @@ class Search(View):
     def get(self, request):
         form = SearchForm()
         return render(request, self.template, {"form":form})
+        
     def post(self, request):
         pass
 
