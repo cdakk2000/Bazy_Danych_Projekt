@@ -1,7 +1,8 @@
 import psycopg2
 from django.shortcuts import render, redirect
 from django.views import View
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
+from psycopg2.extras import DictCursor
 
 from .forms import LoginForm, OptionsForm, SearchForm
 
@@ -66,25 +67,39 @@ class Search(View):
         pass
 
 class Compare(View):
-    template = 'compare.html'
-    def get(self, request):
-        return render(request, self.template)
+    template = 'porownywarka.html'
+    # def get(self, request):
+    #     return render(request, self.template)
 
-    def phone_brands_models(request):
+    def get(self, request):
         connection = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
-        if request.method == 'GET':
-            cursor = connection.cursor()
-            cursor.execute("SELECT brand_id, name FROM brand;")
-            brands = cursor.fetchall()
-            cursor.execute("SELECT phone_id, model, brand_id FROM phone")
-            models = cursor.fetchall()
-            return render(request, 'porownywarka.html', {'brands': brands, 'models': models})
-        elif request.method == 'POST':
-            brand_id = request.POST.get('brand_id')
-            cursor = connection.cursor()
-            cursor.execute("SELECT phone_id, model FROM phone WHERE brand_id = %s", [brand_id])
-            models = cursor.fetchall()
-            return JsonResponse({'models': models}, safe=False)
+        cursor = connection.cursor()
+        cursor.execute("SELECT brand_id, name FROM brand;")
+        brands = cursor.fetchall()
+        cursor.execute("SELECT phone_id, model, brand_id FROM phone")
+        models = cursor.fetchall()
+        return render(request, self.template, {'brands': brands, 'models': models})
+
+    def post(self, request):
+        phone1_brand = request.POST.get('phone1_brand')
+        phone1_model = request.POST.get('phone1_model')
+        phone2_brand = request.POST.get('phone2_brand')
+        phone2_model = request.POST.get('phone2_model')
+        brand_id = request.POST.get('brand_id')
+
+        connection = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
+        cursor = connection.cursor(cursor_factory=DictCursor)
+        cursor.execute("SELECT phone_id, model FROM phone WHERE brand_id = %s", [brand_id])
+        models = cursor.fetchall()
+        cursor.execute("SELECT * FROM phone WHERE brand_id = %s AND phone_id = %s", [phone1_brand, phone1_model])
+        phone1_specs = cursor.fetchall()
+        cursor.execute("SELECT * FROM phone WHERE brand_id = %s AND phone_id = %s", [phone2_brand, phone2_model])
+        phone2_specs = cursor.fetchall()
+
+        print(phone1_specs)
+        print(phone2_specs)
+        return JsonResponse({'models': models,'phone1_specs': phone1_specs, 'phone2_specs': phone2_specs}, safe=False)
+
 
 class SaveSearch(View):
     template = "savesearch.html"

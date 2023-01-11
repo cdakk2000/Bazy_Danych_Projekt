@@ -38,13 +38,45 @@
           <option value="{{ brand.0 }}">{{ brand.1 }}</option>
           {% endfor %}
       </select>
-        <select id="phone2_model-selector" name="phone1_model">
+        <select id="phone2_model-selector" name="phone2_model">
 
       </select>
       <br>
       <input type="submit" value="Porównaj">
     </form>
-    <section id="comparison-results"></section>
+    <section id="comparison-results">
+{#        <div id="phone1-specs">#}
+{#    <h3>Specyfikacje telefonu 1</h3>#}
+{#    <ul id="phone1-specs-ul">#}
+
+{#    </ul>#}
+{#</div>#}
+{#<div id="phone2-specs">#}
+{#    <h3>Specyfikacje telefonu 2</h3>#}
+{#    <ul id="phone2-specs-ul">#}
+{#        or %}#}
+{#    </ul>#}
+{#</div>#}
+
+<table>
+  <tr>
+    <th>Telefon 1</th>
+    <th>Telefon 2</th>
+  </tr>
+  <tr>
+    <td>
+      <ul id="phone1-specs-ul">
+
+      </ul>
+    </td>
+    <td>
+        <ul id="phone2-specs-ul"></ul>
+    </td>
+  </tr>
+</table>
+
+
+    </section>
   </main>
   <footer>
     <p>Copyright © 2023 Porównywarka Specyfikacji Telefonów</p>
@@ -64,6 +96,7 @@
           data: {brand_id: brandId},
           beforeSend: function(xhr, settings) {
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            //console.log(data);
           },
           success: function(data){
               //console.log(data);
@@ -101,6 +134,48 @@
             });
           }
         });
+    });
+});
+    $("form").submit(function(e) {
+    e.preventDefault();
+    var phone1Brand = $("#phone1_brand-selector").val();
+    var phone1Model = $("#phone1_model-selector").val();
+    var phone2Brand = $("#phone2_brand-selector").val();
+    var phone2Model = $("#phone2_model-selector").val();
+    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+    //console.log(phone1Model);
+    $.ajax({
+        type: "POST",
+        url: "/porownywarka/",
+        data: {phone1_brand: phone1Brand, phone1_model: phone1Model, phone2_brand: phone2Brand, phone2_model: phone2Model},
+        beforeSend: function(xhr, settings) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            //console.log(data);
+          },
+        success: function(data) {
+            console.log(data);
+            //$("#comparison-results").html(data);
+            var phone1SpecsList = $('#phone1-specs-ul');
+            phone1SpecsList.empty();
+            data.phone1_specs.forEach(function(spec){
+                phone1SpecsList.append($("<li>").text("Model: " + spec[1]));
+                phone1SpecsList.append($("<li>").text("Id w bazie xD: " + spec[2]));
+                phone1SpecsList.append($("<li>").text("Data wydania: " + spec[3]));
+                phone1SpecsList.append($("<li>").text("Długość: " + spec[4]));
+                }
+            )
+
+            var phone2SpecsList = $('#phone2-specs-ul');
+            phone2SpecsList.empty();
+            data.phone2_specs.forEach(function(spec){
+                phone2SpecsList.append($("<li>").text("Model: " + spec[1]));
+                phone2SpecsList.append($("<li>").text("Id w bazie xD: " + spec[2]));
+                phone2SpecsList.append($("<li>").text("Data wydania: " + spec[3]));
+                phone2SpecsList.append($("<li>").text("Długość: " + spec[4]));
+                }
+            )
+
+        }
     });
 });
 </script>
