@@ -3,11 +3,14 @@ from django import forms
 class LoginForm(forms.Form):
     username = forms.EmailField(label='Username', max_length=100)
     password = forms.CharField(label='Password', max_length=100, widget= forms.PasswordInput)
+    register = forms.BooleanField(label='Register', required=False)
+
 #formularz opcji
 class OptionsForm(forms.Form):
     compare  = forms.BooleanField(label='Compare', required=False)
     findphone = forms.BooleanField(label='Find phone', required=False)
     savesearch = forms.BooleanField(label='Save search', required=False)
+    manage = forms.BooleanField(label='Manage', required=False)
 
 class SearchForm(forms.Form):
     model = forms.CharField(label='Model', max_length=64)
@@ -34,3 +37,9 @@ class SearchForm(forms.Form):
     radio = forms.BooleanField(label='Radio', required=False)
     battery_capacity = forms.IntegerField(label='Battery', min_value=0, step_size = 100)
     battery_removable = forms.BooleanField(label='Removable battery', required=False)
+
+class AdminOptions(forms.Form):
+    addphone = forms.BooleanField(label='Add phone', required=False)
+    deletephone = forms.BooleanField(label='Delete phone', required=False)
+    editphone = forms.BooleanField(label='Edit phone', required=False)
+    comments = format.BooleanField(label='Comments', required=False)
