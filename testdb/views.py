@@ -70,7 +70,18 @@ class Search(View):
         return render(request, self.template, {"form":form})
         
     def post(self, request):
-        pass
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
+            with  conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
+                searchform = form.cleaned_data
+                searchform = {k: v for k, v in searchform.items() if v is not None}
+                if 'model' in searchform:
+                    cursor.execute("SELECT phone_id FROM phone WHERE model = %s;", (searchform['model'],))
+                    results = cursor.fetchone()
+                    return redirect('phone', phone_id=results["phone_id"])
+                
+        return render(request, self.template, {"form":form})
 
 class Compare(View):
     template = 'compare.html'
@@ -94,6 +105,15 @@ class Admin(View):
         return render(request, self.template)
     def post(self, request):
         pass
+
+class Phone(View):
+    template = 'phone.html'
+    def get(self, request, phone_id):
+        conn = psycopg2.connect(dbname='phones', user= 'postgres',  password='pass1234', host='localhost')
+        with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
+            cursor.execute("SELECT * FROM phone WHERE phone_id = %s;", (phone_id,))
+            results = cursor.fetchone()
+        return render(request, self.template, {"phone":results})
 
 #class Database(View):
 #    template = 'database.html'
