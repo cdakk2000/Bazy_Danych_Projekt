@@ -15,4 +15,6 @@ urlpatterns = [
     path(r'options/', views.Options.as_view(), name='options'),
     path(r'compare/', views.Compare.as_view(), name='compare'),
     path(r'savesearch/', views.SaveSearch.as_view(), name='savesearch'),
+    path(r'manage/', views.Manage.as_view(), name='manage'),
+    path('phone/<int:phone_id>', views.Phone.as_view(), name='phone'),
 ]
