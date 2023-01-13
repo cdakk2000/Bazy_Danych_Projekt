@@ -1,11 +1,28 @@
 import psycopg2
 from django.shortcuts import render, redirect
 from django.views import View
+from django.urls.exceptions import NoReverseMatch 
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from psycopg2.extras import DictCursor
 
 from .forms import LoginForm, OptionsForm, SearchForm
 logged_user = None
+all_phones = """select phonecpu.*, gpu.name as gpu_name into temp tempphone
+                from	
+	                (select phonechipset.*, cpu.name as cpu_name 
+	                 from
+		                 (select phonebrand.*, chipset.name as chipset_name 
+	 	                  from 
+			                  (select phone.*, brand.name as brand_name 
+			                   from phone
+			                   join brand
+			                   on phone.brand_id = brand.brand_id) as phonebrand
+		                  join chipset
+	 	                  on chipset.chipset_id=phonebrand.chipset_id) as phonechipset
+	                 join cpu 
+	                 on phonechipset.cpu_id = cpu.cpu_id) as phonecpu
+                join gpu
+                on gpu.gpu_id=phonecpu.gpu_id"""
 class Index(View):
     template = 'index.html'
 
@@ -74,13 +91,54 @@ class Search(View):
         form = SearchForm(request.POST)
         if form.is_valid():
             conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
-            with  conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
+            with  conn.cursor() as cursor:
                 searchform = form.cleaned_data
-                searchform = {k: v for k, v in searchform.items() if v is not None}
+                searchform = {k: v for k, v in searchform.items() if v is not None and v != '' and v!=False}
+
                 if 'model' in searchform:
                     cursor.execute("SELECT phone_id FROM phone WHERE model = %s;", (searchform['model'],))
                     results = cursor.fetchone()
-                    return redirect('phone', phone_id=results["phone_id"])
+                    conn.commit()
+                    conn.close()
+
+                    try:
+                        return redirect('phone', phone_id=results[0])
+                    except NoReverseMatch:
+                        return redirect('noresults')
+
+                elif len(searchform) != 0:
+
+                    findPhone = all_phones+";"
+                    cursor.execute(findPhone)
+
+                    removable_columns = ["brand_id", "cpu_id", "gpu_id", "chipset_id", "image_url"]
+                    remove_query = """ALTER TABLE tempphone DROP %s;"""
+                    for remove in removable_columns:
+                        cursor.execute(remove_query % remove)  
+
+                    search_query = "SELECT phone_id FROM tempphone WHERE "
+                    for k in searchform.keys():
+                        if k == "ram" or k == "internal_memory":
+                            search_query += "%s = ANY("+k+") AND "
+                        elif k=="bluetooth_version" or k=="width" or k=="height" or k=="thickness":
+                            search_query+= k +" = real \'%s\' AND "
+                        else:
+                            search_query += k + " = \'%s\' AND "
+                    search_query = search_query[:-5] + ";"
+                    cursor.execute(search_query % tuple(searchform.values()))
+                    results = cursor.fetchall()
+                    resultsphoneids = "/".join([str(x[0]) for x in results])
+                    conn.commit()
+                    conn.close()
+
+                    try:
+                        return redirect('searchresult', phone_ids=resultsphoneids)
+                    except NoReverseMatch:
+                       return redirect('noresults')
+                else:
+                    form = SearchForm()
+        else:
+            form = SearchForm()
                 
         return render(request, self.template, {"form":form})
 
@@ -144,23 +202,38 @@ class Phone(View):
     def get(self, request, phone_id):
         conn = psycopg2.connect(dbname='phones', user= 'postgres',  password='pass1234', host='localhost')
         with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
-            cursor.execute("SELECT * FROM phone WHERE phone_id = %s;", (phone_id,))
+            findPhone = all_phones+""" where phone_id = %s;"""
+            cursor.execute(findPhone, [phone_id,])
+            removable_columns = ["brand_id", "cpu_id", "gpu_id", "chipset_id", "phone_id"]
+            remove_query = """ALTER TABLE tempphone DROP %s;"""
+            for remove in removable_columns:
+                cursor.execute(remove_query % remove)
+            cursor.execute("select * from tempphone;")
             results = cursor.fetchone()
+            cursor.execute("drop table tempphone;")
         return render(request, self.template, {"phone":results})
 
-#class Database(View):
-#    template = 'database.html'
-#    def get(self, request):
-#        return render(request, self.template)
-#    #def get(request):
-#    #    conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
-#
-    #    cursor = conn.cursor()
-#
-    #    cursor.execute("SELECT * FROM phone LIMIT 15")
-    #    results = cursor.fetchall()
-    #    print(results)
-#
-    #    conn.close()
-#
-    #    return render(request, 'database.html', {'results': results})
+class SearchResult(View):
+    template = 'searchresult.html'
+    def get(self, request, phone_ids):
+        phone_ids = [int(x) for x in phone_ids.split('/')]
+        conn = psycopg2.connect(dbname='phones', user= 'postgres', password='pass1234', host='localhost')
+        with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
+            findPhones = all_phones+""" where phone_id in %s;"""
+            cursor.execute(findPhones, [tuple(phone_ids),])
+
+            removable_columns = ["brand_id", "cpu_id", "gpu_id", "chipset_id", "phone_id", "image_url"]
+            remove_query = """ALTER TABLE tempphone DROP %s;"""
+            for remove in removable_columns:
+                cursor.execute(remove_query % remove)
+
+            cursor.execute("select * from tempphone;")
+            results = cursor.fetchall()
+            cursor.execute("drop table tempphone;")
+
+        return render(request, self.template, {"phones":results})
+
+class NoResults(View):
+    template = 'noresult.html'
+    def get(self, request):
+        return render(request, self.template)

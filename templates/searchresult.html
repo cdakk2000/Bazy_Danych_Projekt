@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Results</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>Premiere</th>
+            <th>Dimensions</th>
+            <th>SIM</th>
+            <th>Battery</th>
+            <th>Removable battery</th>
+            <th>Resolution</th>
+            <th>PPI</th>
+            <th>Storage options</th>
+            <th>RAM options</th>
+            <th>Dedicated card slot</th>
+            <th>Chipset</th>
+            <th>CPU</th>
+            <th>GPU</th>
+            <th>Connector</th>
+            <th>Bluetooth version</th>
+            <th>Wi-Fi</th>
+            <th>NFC</th>
+            <th>GPS</th>
+            <th>Radio</th>
+            <th>3.5 jack</th>
+        </tr>
+        {% for phone in phones %}
+        <tr>
+            <td>{{ phone.brand_name }}</td>
+            <td>{{ phone.model }}</td>
+            <td>{{ phone.release }}</td>
+            <td>{{ phone.height }}x{{phone.width}}x{{phone.thickness}} mm</td>
+            <td>{{ phone.sim }}</td>
+            <td>{{ phone.battery_capacity }} mAh</td>
+            <td>{{ phone.battery_removable }}</td>
+            <td>{{ phone.resolution}}</td>
+            <td>{{ phone.ppi }}</td>
+            <td>{% for storage in phone.internal_memory %}{{ storage }} {% endfor %}</td>
+            <td>{% for ram in phone.ram %}{{ram}} {% endfor %}</td>
+            <td>{{ phone.memory_card_dedicated}}</td>
+            <td>{{ phone.chipset_name }}</td>
+            <td>{{ phone.cpu_name }}</td>
+            <td>{{ phone.gpu_name }}</td>
+            <td>{{ phone.connector }}</td>
+            <td>{{ phone.bluetooth_version }}</td>
+            <td>{{ phone.wifi }}</td>
+            <td>{{ phone.nfc }}</td>
+            <td>{{ phone.gps }}</td>
+            <td>{{ phone.radio }}</td>
+            <td>{{ phone.audio_jack }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
