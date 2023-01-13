@@ -148,7 +148,7 @@ class Compare(View):
     #     return render(request, self.template)
 
     def get(self, request):
-        connection = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
+        connection = psycopg2.connect(dbname='postgres', user='postgres', password='pass1234', host='localhost')
         cursor = connection.cursor()
         cursor.execute("SELECT brand_id, name FROM brand;")
         brands = cursor.fetchall()
@@ -163,7 +163,7 @@ class Compare(View):
         phone2_model = request.POST.get('phone2_model')
         brand_id = request.POST.get('brand_id')
 
-        connection = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
+        connection = psycopg2.connect(dbname='postgres', user='postgres', password='pass1234', host='localhost')
         cursor = connection.cursor(cursor_factory=DictCursor)
         cursor.execute("SELECT phone_id, model FROM phone WHERE brand_id = %s", [brand_id])
         models = cursor.fetchall()
@@ -204,14 +204,26 @@ class Phone(View):
         with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
             findPhone = all_phones+""" where phone_id = %s;"""
             cursor.execute(findPhone, [phone_id,])
+            
             removable_columns = ["brand_id", "cpu_id", "gpu_id", "chipset_id", "phone_id"]
             remove_query = """ALTER TABLE tempphone DROP %s;"""
             for remove in removable_columns:
                 cursor.execute(remove_query % remove)
+            
             cursor.execute("select * from tempphone;")
             results = cursor.fetchone()
+            
             cursor.execute("drop table tempphone;")
-        return render(request, self.template, {"phone":results})
+            conn.commit()
+            findcommentsquery = """select "user".email, "comment".content from comment 
+                                    join "user"
+                                    on "user".user_id = "comment".user_id
+                                    where "comment".phone_id = %s;"""
+            cursor.execute(findcommentsquery, [phone_id,])
+            comments = cursor.fetchall()
+            conn.commit()
+            conn.close()
+        return render(request, self.template, {"phone":results, "comments": comments})
 
 class SearchResult(View):
     template = 'searchresult.html'
@@ -230,7 +242,7 @@ class SearchResult(View):
             cursor.execute("select * from tempphone;")
             results = cursor.fetchall()
             cursor.execute("drop table tempphone;")
-
+        
         return render(request, self.template, {"phones":results})
 
 class NoResults(View):

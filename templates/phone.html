@@ -54,9 +54,13 @@
     </form>
 
     <!-- Sekcja komentarzy -->
-    <h2>Komentarze</h2>
+    <h2>Comments</h2>
     <div id="comments">
-      <!-- Tutaj będą wyświetlane komentarze -->
+      {% for comment in comments %}
+        <div>
+          <h4>{{comment.email}}</h4>
+          <p>{{comment.content}}</p>
+      {% endfor %}
     </div>
   </body>
 </html>
