@@ -3,9 +3,9 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.urls.exceptions import NoReverseMatch 
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
-from psycopg2.extras import DictCursor
+from psycopg2.extras import DictCursor, RealDictCursor
 
-from .forms import LoginForm, OptionsForm, SearchForm
+from .forms import LoginForm, OptionsForm, SearchForm, SaveSearchForm
 logged_user = None
 all_phones = """select phonecpu.*, gpu.name as gpu_name into temp tempphone
                 from	
@@ -47,6 +47,7 @@ class Index(View):
                 form = LoginForm()
             elif results[0]==password and results[1]==False:
                 logged_user = username
+                print(logged_user)
                 return redirect('options')
             elif results[0]==password and results[1]==True:
                 return redirect('admin')
@@ -180,9 +181,46 @@ class Compare(View):
 class SaveSearch(View):
     template = "savesearch.html"
     def get(self, request):
-        form = SearchForm()
+        form = SaveSearchForm()
         return render(request, self.template, {"form":form})
-    
+
+    def post(self, request):
+        form = SaveSearchForm(request.POST)
+        if form.is_valid():
+            conn = psycopg2.connect(dbname='phones', user = 'postgres', password = 'pass1234', host = 'localhost')
+            with conn.cursor() as cursor:
+                searchform = form.cleaned_data
+                searchform = {k: v for k, v in searchform.items() if v is not None and v != ''}
+                print(searchform)
+                if 'brand' in searchform.keys():
+                    cursor.execute("SELECT brand_id FROM brand WHERE name = %s;", (searchform['brand'],))
+                    brand_id = cursor.fetchone()[0]
+                
+                if 'model' in searchform.keys():
+                    cursor.execute("SELECT phone_id FROM phone WHERE model = %s;", (searchform['model'],))
+                    phone_id = cursor.fetchone()[0]
+                
+                conn.commit()
+                if len(searchform) == 0:
+                    return redirect('noresults')
+
+            with conn.cursor() as cursor:
+                print(logged_user)
+                if brand_id is not None and logged_user is not None:
+                        cursor.execute("""INSERT INTO brand_subscription (brand_id, user_id)
+                                         VALUES (%s, (SELECT user_id FROM \"user\" WHERE email = %s));""", (brand_id, logged_user))
+                        conn.commit()
+
+                if phone_id is not None and logged_user is not None:
+                        cursor.execute("""INSERT INTO phone_subscription (phone_id, user_id)
+                                         VALUES (%s, (SELECT user_id FROM \"user\" WHERE email = %s));""", (phone_id, logged_user))
+                        conn.commit()
+
+            conn.close()
+
+        form = SaveSearchForm()
+        return render(request, self.template, {"form":form})
+            
 class Manage(View):
     template = 'manage.html'
     def get(self, request):
@@ -201,7 +239,7 @@ class Phone(View):
     template = 'phone.html'
     def get(self, request, phone_id):
         conn = psycopg2.connect(dbname='phones', user= 'postgres',  password='pass1234', host='localhost')
-        with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
+        with conn.cursor(cursor_factory=RealDictCursor) as cursor:
             findPhone = all_phones+""" where phone_id = %s;"""
             cursor.execute(findPhone, [phone_id,])
             
@@ -230,7 +268,7 @@ class SearchResult(View):
     def get(self, request, phone_ids):
         phone_ids = [int(x) for x in phone_ids.split('/')]
         conn = psycopg2.connect(dbname='phones', user= 'postgres', password='pass1234', host='localhost')
-        with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
+        with conn.cursor(cursor_factory=RealDictCursor) as cursor:
             findPhones = all_phones+""" where phone_id in %s;"""
             cursor.execute(findPhones, [tuple(phone_ids),])
 

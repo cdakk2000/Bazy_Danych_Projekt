@@ -38,6 +38,10 @@ class SearchForm(forms.Form):
     battery_capacity = forms.IntegerField(label='Battery', min_value=0, step_size = 10, required = False)
     battery_removable = forms.BooleanField(label='Removable battery', required=False)
 
+class SaveSearchForm(forms.Form):
+    brand = forms.CharField(label='Brand', max_length=64, required=False) 
+    model = forms.CharField(label='Model', max_length=64, required=False)
+
 #class AdminOptions(forms.Form):
 #   addphone = forms.BooleanField(label='Add phone', required=False)
 #    deletephone = forms.BooleanField(label='Delete phone', required=False)
