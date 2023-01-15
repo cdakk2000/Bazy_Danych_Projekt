@@ -42,14 +42,15 @@ class Index(View):
                 pass
             cursor.execute("SELECT password, is_admin FROM \"user\" WHERE email = %s;", (username,))
             results = cursor.fetchone()
-            cursor.close()
+            conn.close()
+            global logged_user
             if results is None:
                 form = LoginForm()
             elif results[0]==password and results[1]==False:
                 logged_user = username
-                print(logged_user)
                 return redirect('options')
             elif results[0]==password and results[1]==True:
+                logged_user = username
                 return redirect('admin')
         else:
             form = LoginForm()
@@ -188,6 +189,8 @@ class SaveSearch(View):
         form = SaveSearchForm(request.POST)
         if form.is_valid():
             conn = psycopg2.connect(dbname='phones', user = 'postgres', password = 'pass1234', host = 'localhost')
+            brand_id = None
+            phone_id = None
             with conn.cursor() as cursor:
                 searchform = form.cleaned_data
                 searchform = {k: v for k, v in searchform.items() if v is not None and v != ''}
@@ -205,7 +208,7 @@ class SaveSearch(View):
                     return redirect('noresults')
 
             with conn.cursor() as cursor:
-                print(logged_user)
+                global logged_user
                 if brand_id is not None and logged_user is not None:
                         cursor.execute("""INSERT INTO brand_subscription (brand_id, user_id)
                                          VALUES (%s, (SELECT user_id FROM \"user\" WHERE email = %s));""", (brand_id, logged_user))
