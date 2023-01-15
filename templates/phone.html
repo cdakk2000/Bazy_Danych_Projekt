@@ -42,6 +42,10 @@
     <p>GPS: {{phone.gps}}</p>
     <p>FM radio: {{phone.radio}}</p>
     <p>3.5mm jack: {{phone.audio_jack}}</p>
+    <h3>Camera</h3>
+    {% for camera in cameras %}
+    <p>MP: {{camera.mp}} / f: {{camera.f}}</p>
+    {% endfor %}
 
 
 

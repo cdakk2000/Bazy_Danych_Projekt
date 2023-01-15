@@ -263,8 +263,17 @@ class Phone(View):
             cursor.execute(findcommentsquery, [phone_id,])
             comments = cursor.fetchall()
             conn.commit()
+
+            findcamerasquery = """SELECT mp, f FROM "camera"
+                                WHERE camera_id IN 
+                                (SELECT camera_id FROM "phone-camera" 
+                                WHERE phone_id = %s)
+                                ORDER BY mp DESC;"""
+            cursor.execute(findcamerasquery, [phone_id,])
+            cameras = cursor.fetchall()
+            conn.commit()
             conn.close()
-        return render(request, self.template, {"phone":results, "comments": comments})
+        return render(request, self.template, {"phone":results, "comments": comments, "cameras":cameras})
 
 class SearchResult(View):
     template = 'searchresult.html'
