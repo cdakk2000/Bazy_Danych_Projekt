@@ -19,4 +19,5 @@ urlpatterns = [
     path('searchresult/<path:phone_ids>', views.SearchResult.as_view(), name='searchresult'),
     path('noresults/', views.NoResults.as_view(), name='noresults'),
     path('savesearch/', views.SaveSearch.as_view(), name='savesearch'),
+    path('addphone/', views.AddPhone.as_view(), name='addphone'),
 ]
