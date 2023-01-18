@@ -5,7 +5,7 @@ from django.urls.exceptions import NoReverseMatch
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from psycopg2.extras import DictCursor, RealDictCursor
 
-from .forms import LoginForm, OptionsForm, SearchForm, SaveSearchForm, AdminOptionsForm
+from .forms import LoginForm, OptionsForm, SearchForm, SaveSearchForm, AdminOptionsForm, AdminPhoneForm
 logged_user = None
 all_phones = """select phonecpu.*, gpu.name as gpu_name into temp tempphone
                 from	
@@ -230,14 +230,6 @@ class Manage(View):
         return render(request, self.template)
 
 
-
-class Admin(View):
-    template = 'admin.html'
-    def get(self, request):
-        return render(request, self.template)
-    def post(self, request):
-        pass
-
 class Phone(View):
     template = 'phone.html'
     def get(self, request, phone_id):
@@ -311,7 +303,7 @@ class Admin(View):
         if form.is_valid():
             results = form.cleaned_data
             if results["addphone"] == True:
-                pass
+                return redirect('addphone')
             elif results["deletephone"] == True:
                 pass
             elif results["editphone"] == True:
@@ -324,4 +316,20 @@ class Admin(View):
                 form = AdminOptionsForm()
         else:
             form = AdminOptionsForm()
+        return render(request, self.template, {"form":form})
+
+class AddPhone(View):
+    template = 'addphone.html'
+    def get(self, request):
+        form = AdminPhoneForm()
+        return render(request, self.template, {"form":form})
+
+    def post(self, request):
+        form = AdminPhoneForm(request.POST)
+        if form.is_valid():
+            results = form.cleaned_data
+            
+        else:
+            form = AdminPhoneForm()
+    
         return render(request, self.template, {"form":form})
