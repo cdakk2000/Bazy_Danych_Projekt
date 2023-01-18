@@ -42,8 +42,9 @@ class SaveSearchForm(forms.Form):
     brand = forms.CharField(label='Brand', max_length=64, required=False) 
     model = forms.CharField(label='Model', max_length=64, required=False)
 
-#class AdminOptions(forms.Form):
-#   addphone = forms.BooleanField(label='Add phone', required=False)
-#    deletephone = forms.BooleanField(label='Delete phone', required=False)
-#   editphone = forms.BooleanField(label='Edit phone', required=False)
-#    comments = format.BooleanField(label='Comments', required=False)
+class AdminOptionsForm(forms.Form):
+    addphone = forms.BooleanField(label='Add phone', required=False)
+    deletephone = forms.BooleanField(label='Delete phone', required=False)
+    editphone = forms.BooleanField(label='Edit phone', required=False)
+    comments = forms.BooleanField(label='Delete comments', required=False)
+    deleteuser = forms.BooleanField(label='Delete user', required=False)

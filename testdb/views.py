@@ -5,7 +5,7 @@ from django.urls.exceptions import NoReverseMatch
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from psycopg2.extras import DictCursor, RealDictCursor
 
-from .forms import LoginForm, OptionsForm, SearchForm, SaveSearchForm
+from .forms import LoginForm, OptionsForm, SearchForm, SaveSearchForm, AdminOptionsForm
 logged_user = None
 all_phones = """select phonecpu.*, gpu.name as gpu_name into temp tempphone
                 from	
@@ -299,3 +299,29 @@ class NoResults(View):
     template = 'noresult.html'
     def get(self, request):
         return render(request, self.template)
+
+class Admin(View):
+    template = 'admin.html'
+    def get(self, request):
+        form = AdminOptionsForm()
+        return render(request, self.template, {"form":form})
+
+    def post(self, request):
+        form = AdminOptionsForm(request.POST)
+        if form.is_valid():
+            results = form.cleaned_data
+            if results["addphone"] == True:
+                pass
+            elif results["deletephone"] == True:
+                pass
+            elif results["editphone"] == True:
+                pass
+            elif results["comments"] == True:
+                pass
+            elif results["deleteuser"] == True:
+                pass
+            else:
+                form = AdminOptionsForm()
+        else:
+            form = AdminOptionsForm()
+        return render(request, self.template, {"form":form})

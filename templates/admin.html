@@ -2,5 +2,10 @@
 <html>
   <head>
     <title>Admin</title>
+    <form method="post">
+      {% csrf_token %}
+      {{ form }}
+      <button type="submit">Submit option</button>
+  </form>
   </head>
 </html>
