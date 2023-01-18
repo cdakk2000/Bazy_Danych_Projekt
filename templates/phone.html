@@ -50,10 +50,9 @@
 
 
     <!-- Formularz dodawania komentarzy -->
-    <form>
-      <!-- Pole tekstowe do wpisywania komentarza -->
-      <textarea placeholder="Napisz komentarz..."></textarea>
-      <!-- Przycisk dodawania komentarza -->
+    <form method = "post">
+      {% csrf_token %}
+      {{ form.as_p }}
       <button type="submit">Dodaj komentarz</button>
     </form>
 

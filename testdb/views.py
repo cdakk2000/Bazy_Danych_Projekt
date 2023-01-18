@@ -5,7 +5,7 @@ from django.urls.exceptions import NoReverseMatch
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from psycopg2.extras import DictCursor, RealDictCursor
 
-from .forms import LoginForm, OptionsForm, SearchForm, SaveSearchForm, AdminOptionsForm, AdminPhoneForm, AdminDeletePhoneForm
+from .forms import LoginForm, OptionsForm, SearchForm, SaveSearchForm, AdminOptionsForm, AdminPhoneForm, AdminDeletePhoneForm, CommentForm
 logged_user = None
 all_phones = """select phonecpu.*, gpu.name as gpu_name into temp tempphone
                 from	
@@ -233,6 +233,7 @@ class Manage(View):
 class Phone(View):
     template = 'phone.html'
     def get(self, request, phone_id):
+        form = CommentForm()
         conn = psycopg2.connect(dbname='phones', user= 'postgres',  password='pass1234', host='localhost')
         with conn.cursor(cursor_factory=RealDictCursor) as cursor:
             findPhone = all_phones+""" where phone_id = %s;"""
@@ -265,7 +266,23 @@ class Phone(View):
             cameras = cursor.fetchall()
             conn.commit()
             conn.close()
-        return render(request, self.template, {"phone":results, "comments": comments, "cameras":cameras})
+        return render(request, self.template, {"phone":results, "comments": comments, "cameras":cameras, "form":form})
+
+    def post(self, request, phone_id):
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.cleaned_data
+            """TODO: wstawienie komentarza od bazy
+            tutaj jest na razie tylko słownik {"comment": "tresc komentarza"}
+            jak będzie jednak robić to uwierzytalnianie za każdym razem to trzeba będzie dorabić pola email i hasło
+            i szukać czy user jest autoryzowany
+            po dadaniu trzeba wyrenderować jeszcze raz stronę  z telefonem"""
+            return redirect('phone', phone_id=phone_id)
+        else:
+            form = CommentForm()
+
+        return redirect('phone', phone_id=phone_id)
+
 
 class SearchResult(View):
     template = 'searchresult.html'

@@ -81,3 +81,6 @@ class AdminPhoneForm(forms.Form):
 class AdminDeletePhoneForm(forms.Form):
     model = forms.CharField(label='Model', max_length=64, required=True)
     brand_name = forms.CharField(label='Brand', max_length=16, required=True)
+
+class CommentForm(forms.Form):
+    comment = forms.CharField(label='Comment', max_length=1024, required=True)
