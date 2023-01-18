@@ -20,4 +20,7 @@ urlpatterns = [
     path('noresults/', views.NoResults.as_view(), name='noresults'),
     path('savesearch/', views.SaveSearch.as_view(), name='savesearch'),
     path('addphone/', views.AddPhone.as_view(), name='addphone'),
+    #path('results/', views.Results.as_view(), name='results'),
+    path('editphone/', views.EditPhone.as_view(), name='editphone'),
+    path('deletephone/', views.DeletePhone.as_view(), name='deletephone'),
 ]
