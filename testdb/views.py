@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from psycopg2.extras import DictCursor, RealDictCursor
 
 from .forms import LoginForm, OptionsForm, SearchForm, SaveSearchForm, AdminOptionsForm, AdminPhoneForm, AdminDeletePhoneForm, CommentForm
-logged_user = None
+
 all_phones = """select phonecpu.*, gpu.name as gpu_name into temp tempphone
                 from	
 	                (select phonechipset.*, cpu.name as cpu_name 
@@ -23,6 +23,19 @@ all_phones = """select phonecpu.*, gpu.name as gpu_name into temp tempphone
 	                 on phonechipset.cpu_id = cpu.cpu_id) as phonecpu
                 join gpu
                 on gpu.gpu_id=phonecpu.gpu_id"""
+
+def authenticate(conn, username, password):
+    cursor = conn.cursor()
+    cursor.execute("SELECT password, user_id FROM \"user\" WHERE email = %s;", (username,))
+    results = cursor.fetchone()
+    if results is None:
+        return None 
+    elif results[0]==password:
+        return results[1]
+    else:
+        return None
+
+
 class Index(View):
     template = 'index.html'
 
@@ -43,14 +56,11 @@ class Index(View):
             cursor.execute("SELECT password, is_admin FROM \"user\" WHERE email = %s;", (username,))
             results = cursor.fetchone()
             conn.close()
-            global logged_user
             if results is None:
                 form = LoginForm()
             elif results[0]==password and results[1]==False:
-                logged_user = username
                 return redirect('options')
             elif results[0]==password and results[1]==True:
-                logged_user = username
                 return redirect('admin')
         else:
             form = LoginForm()
@@ -191,32 +201,43 @@ class SaveSearch(View):
             conn = psycopg2.connect(dbname='phones', user = 'postgres', password = 'pass1234', host = 'localhost')
             brand_id = None
             phone_id = None
+            email = None
+            password = None
             with conn.cursor() as cursor:
                 searchform = form.cleaned_data
-                searchform = {k: v for k, v in searchform.items() if v is not None and v != ''}
                 print(searchform)
-                if 'brand' in searchform.keys():
+                #searchform = {k: v for k, v in searchform.items() if v is not None and v != ''}
+                #print(searchform)
+                if searchform['brand'] != '':
+                    print(searchform['brand'])
                     cursor.execute("SELECT brand_id FROM brand WHERE name = %s;", (searchform['brand'],))
                     brand_id = cursor.fetchone()[0]
                 
-                if 'model' in searchform.keys():
+                if searchform['model'] != '':
                     cursor.execute("SELECT phone_id FROM phone WHERE model = %s;", (searchform['model'],))
                     phone_id = cursor.fetchone()[0]
                 
                 conn.commit()
-                if len(searchform) == 0:
+                if brand_id is None and phone_id is None:
                     return redirect('noresults')
+                
+                if searchform['email'] == '' or searchform['password'] == '':
+                    return redirect('savesearch')
+                else:
+                    email = searchform['email']
+                    password = searchform['password']
 
             with conn.cursor() as cursor:
-                global logged_user
-                if brand_id is not None and logged_user is not None:
+                user_id = authenticate(conn, email, password)
+                print(user_id, brand_id)
+                if brand_id is not None and user_id is not None:
                         cursor.execute("""INSERT INTO brand_subscription (brand_id, user_id)
-                                         VALUES (%s, (SELECT user_id FROM \"user\" WHERE email = %s));""", (brand_id, logged_user))
+                                         VALUES (%s, %s);""", (brand_id, user_id))
                         conn.commit()
 
-                if phone_id is not None and logged_user is not None:
+                if phone_id is not None and user_id is not None:
                         cursor.execute("""INSERT INTO phone_subscription (phone_id, user_id)
-                                         VALUES (%s, (SELECT user_id FROM \"user\" WHERE email = %s));""", (phone_id, logged_user))
+                                         VALUES (%s, %s);""", (phone_id, user_id))
                         conn.commit()
 
             conn.close()
@@ -271,12 +292,22 @@ class Phone(View):
     def post(self, request, phone_id):
         form = CommentForm(request.POST)
         if form.is_valid():
-            comment = form.cleaned_data
+            comment = form.cleaned_data["comment"]
+            email = form.cleaned_data["email"]
+            password = form.cleaned_data["password"]
+
+            conn = psycopg2.connect(dbname='phones', user= 'postgres',  password='pass1234', host='localhost')
+            if email == '' or password == '':
+                return redirect('phone', phone_id=phone_id)
+            user_id = authenticate(conn, email, password)
+            if user_id is not None:
+                pass
             """TODO: wstawienie komentarza od bazy
             tutaj jest na razie tylko słownik {"comment": "tresc komentarza"}
             jak będzie jednak robić to uwierzytalnianie za każdym razem to trzeba będzie dorabić pola email i hasło
             i szukać czy user jest autoryzowany
             po dadaniu trzeba wyrenderować jeszcze raz stronę  z telefonem"""
+
             return redirect('phone', phone_id=phone_id)
         else:
             form = CommentForm()
