@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Delete Phone</title>
+  </head>
+  <body>
+    <form method="post">
+      {% csrf_token %}
+      {{ form }}
+      <button type="submit">Delete</button>
+    </form>
+  </body>
+</html>
