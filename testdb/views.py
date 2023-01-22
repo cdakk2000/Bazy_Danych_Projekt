@@ -157,8 +157,8 @@ class Options(View):
         form =OptionsForm()
         email = request.session.get('email')
         id = request.session.get('user_id')
-        print("EMAIL: " + email)
-        print("USER ID:", id)
+        #print("EMAIL: " + email)
+        #print("USER ID:", id)
         return render(request, self.template, {"form":form, "email": email})
 
     def post(self, request):

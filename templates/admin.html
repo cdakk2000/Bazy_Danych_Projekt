@@ -2,10 +2,14 @@
 <html>
   <head>
     <title>Admin</title>
-    <form method="post">
-      {% csrf_token %}
-      {{ form }}
-      <button type="submit">Submit option</button>
-  </form>
+      <link rel="stylesheet" href="/static/css/pico.classless.min.css">
+
   </head>
+<body>
+    <form method="post">
+          {% csrf_token %}
+          {{ form }}
+          <button type="submit">Submit option</button>
+      </form>
+</body>
 </html>
