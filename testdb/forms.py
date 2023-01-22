@@ -41,8 +41,8 @@ class SearchForm(forms.Form):
 class SaveSearchForm(forms.Form):
     brand = forms.CharField(label='Brand', max_length=64, required=False) 
     model = forms.CharField(label='Model', max_length=64, required=False)
-    email = forms.EmailField(label='Email', max_length=100, required=False)
-    password = forms.CharField(label='Password', max_length=100, widget= forms.PasswordInput, required=False)
+   # email = forms.EmailField(label='Email', max_length=100, required=False)
+   # password = forms.CharField(label='Password', max_length=100, widget= forms.PasswordInput, required=False)
 
 class AdminOptionsForm(forms.Form):
     addphone = forms.BooleanField(label='Add phone', required=False)

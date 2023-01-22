@@ -5,9 +5,13 @@
     <title>Options</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
+<body>
+<h1>Witaj, {{ email }}</h1>
     <form method="post">
         {% csrf_token %}
         {{ form }}
         <button type="submit">Submit option</button>
+        <a href ="{% url 'logout' %}" class="btn btn-danger">Wyloguj się</a>
     </form>
+</body>
 </html>
