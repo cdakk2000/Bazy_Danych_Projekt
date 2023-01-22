@@ -5,7 +5,8 @@ from django.urls.exceptions import NoReverseMatch
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from psycopg2.extras import DictCursor, RealDictCursor
 
-from .forms import LoginForm, OptionsForm, SearchForm, SaveSearchForm, AdminOptionsForm, AdminPhoneForm, AdminDeletePhoneForm, CommentForm
+from .forms import LoginForm, OptionsForm, SearchForm, SaveSearchForm, AdminOptionsForm, AdminPhoneForm, \
+    AdminDeletePhoneForm, CommentForm, AdminDeleteCommentsForm
 
 all_phones = """select phonecpu.*, gpu.name as gpu_name into temp tempphone
                 from	
@@ -483,4 +484,32 @@ class EditPhone(View):
         """
         return render(request, self.template, {"form":form})
 
+class DeleteComents(View):
+    template = 'deletecomment.html'
 
+    def get(self, request):
+        form = AdminDeleteCommentsForm()
+        connection = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
+        cursor = connection.cursor(cursor_factory=DictCursor)
+        cursor.execute("""SELECT "comment".comment_id, "comment".content, "user".email FROM "comment" LEFT JOIN "user" ON "comment".user_id = "user".user_id;""")
+        comments = cursor.fetchall()
+        return render(request, self.template, {"form": form, "comments": comments})
+
+    def post(self, request):
+        form = AdminDeleteCommentsForm(request.POST)
+        connection = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
+        cursor = connection.cursor(cursor_factory=DictCursor)
+        if form.is_valid():
+            results = form.cleaned_data
+            print(results.get('comment_id'))
+            cursor.execute("""DELETE FROM "comment" WHERE "comment".comment_id = %s""", [results.get('comment_id')])
+            connection.commit()
+            cursor.execute(
+                """SELECT "comment".comment_id, "comment".content, "user".email FROM "comment" LEFT JOIN "user" ON "comment".user_id = "user".user_id;""")
+            comments = cursor.fetchall()
+
+
+            return render(request, self.template, {"form": form, "comments": comments})
+        else:
+            error_message = "Form is invalid"
+            return render(request, self.template, {"form": form, "comments": comments, "error_message": error_message})

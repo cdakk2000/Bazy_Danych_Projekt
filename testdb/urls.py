@@ -23,4 +23,5 @@ urlpatterns = [
     #path('results/', views.Results.as_view(), name='results'),
     path('editphone/', views.EditPhone.as_view(), name='editphone'),
     path('deletephone/', views.DeletePhone.as_view(), name='deletephone'),
+    path('deletecomment/', views.DeleteComents.as_view(), name='deletecomments'),
 ]

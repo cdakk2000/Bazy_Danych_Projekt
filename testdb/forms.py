@@ -88,3 +88,6 @@ class CommentForm(forms.Form):
     comment = forms.CharField(label='Comment', max_length=1024, required=True)
     email = forms.EmailField(label='Username', max_length=64, required=True)
     password = forms.CharField(label='Password', widget=forms.PasswordInput, max_length=64, required=True)
+
+class AdminDeleteCommentsForm(forms.Form):
+    comment_id = forms.IntegerField(label="Comment ID", min_value=0, step_size = 1, required = False)
