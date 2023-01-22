@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>Delete users</title>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="/static/css/stylesDeletecomment.css">
+  </head>
+  <body>
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Usuń użytkownika</button>
+        <table>
+        <tr>
+            <th>User ID</th>
+            <th>Email</th>
+
+        </tr>
+        {% for row in users %}
+        <tr>
+            <td>{{ row.0 }}</td>
+            <td>{{ row.1 }}</td>
+
+        </tr>
+        {% endfor %}
+    </table>
+  </form>
+    </body>
+
+</html>

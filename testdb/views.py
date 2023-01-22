@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from psycopg2.extras import DictCursor, RealDictCursor
 
 from .forms import LoginForm, OptionsForm, SearchForm, SaveSearchForm, AdminOptionsForm, AdminPhoneForm, \
-    AdminDeletePhoneForm, CommentForm, AdminDeleteCommentsForm
+    AdminDeletePhoneForm, CommentForm, AdminDeleteCommentsForm, AdminDeleteUserForm
 
 all_phones = """select phonecpu.*, gpu.name as gpu_name into temp tempphone
                 from	
@@ -513,3 +513,33 @@ class DeleteComents(View):
         else:
             error_message = "Form is invalid"
             return render(request, self.template, {"form": form, "comments": comments, "error_message": error_message})
+
+
+class DeleteUser(View):
+    template = 'deleteuser.html'
+
+    def get(self, request):
+        form = AdminDeleteUserForm()
+        connection = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
+        cursor = connection.cursor(cursor_factory=DictCursor)
+        cursor.execute("""SELECT "user".user_id, "user".email FROM "user" """)
+        users = cursor.fetchall()
+        return render(request, self.template, {"form": form, "users": users})
+
+    def post(self, request):
+        form = AdminDeleteUserForm(request.POST)
+        connection = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
+        cursor = connection.cursor(cursor_factory=DictCursor)
+        if form.is_valid():
+            results = form.cleaned_data
+            print(results.get('user_id'))
+            cursor.execute("""DELETE FROM "user" WHERE "user".user_id = %s""", [results.get('user_id')])
+            connection.commit()
+            cursor.execute(
+                """ SELECT "user".user_id, "user".email FROM "user" """)
+            users = cursor.fetchall()
+
+            return render(request, self.template, {"form": form, "users": users})
+        else:
+            error_message = "Form is invalid"
+            return render(request, self.template, {"form": form, "users": users, "error_message": error_message})

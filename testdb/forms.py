@@ -91,3 +91,6 @@ class CommentForm(forms.Form):
 
 class AdminDeleteCommentsForm(forms.Form):
     comment_id = forms.IntegerField(label="Comment ID", min_value=0, step_size = 1, required = False)
+
+class AdminDeleteUserForm(forms.Form):
+    user_id = forms.IntegerField(label="User ID", min_value=0, step_size=1, required=False)
