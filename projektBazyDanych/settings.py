@@ -77,9 +77,9 @@ WSGI_APPLICATION = 'projektBazyDanych.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
+        'NAME': 'phones',
         'USER': 'postgres',
-        'PASSWORD': 'mysecretpassword',
+        'PASSWORD': 'pass1234',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
