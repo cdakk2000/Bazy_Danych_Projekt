@@ -4,6 +4,8 @@ from django.views import View
 from django.urls.exceptions import NoReverseMatch 
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from psycopg2.extras import DictCursor, RealDictCursor
+import os
+from dotenv import load_dotenv
 
 from .forms import LoginForm, OptionsForm, SearchForm, SaveSearchForm, AdminOptionsForm, AdminPhoneForm, \
     AdminDeletePhoneForm, CommentForm, AdminDeleteCommentsForm, AdminDeleteUserForm
@@ -36,6 +38,25 @@ def authenticate(conn, username, password):
     else:
         return None
 
+def connect():
+    """
+    Connect to database and return connection
+    """
+    try:
+        load_dotenv()
+        conn = psycopg2.connect(
+            host=os.getenv("POSTGRES_HOST"),
+            dbname=os.getenv("POSTGRES_DB"),
+            user=os.getenv("POSTGRES_USER"),
+            password=os.getenv("POSTGRES_PASSWORD"),
+            port=os.getenv("POSTGRES_PORT")
+        )
+    except psycopg2.OperationalError as e:
+        print(f"Could not connect to Database: {e}")
+        exit(1)
+
+    return conn
+
 
 class Index(View):
     template = 'index.html'
@@ -50,7 +71,8 @@ class Index(View):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             register = form.cleaned_data['register']
-            conn = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
+            #conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
+            conn = connect()
             cursor = conn.cursor()
             if register == True:
                 pass
@@ -103,7 +125,8 @@ class Search(View):
     def post(self, request):
         form = SearchForm(request.POST)
         if form.is_valid():
-            conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
+            #conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
+            conn = connect()
             with  conn.cursor() as cursor:
                 searchform = form.cleaned_data
                 searchform = {k: v for k, v in searchform.items() if v is not None and v != '' and v!=False}
@@ -161,7 +184,8 @@ class Compare(View):
     #     return render(request, self.template)
 
     def get(self, request):
-        connection = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
+        #connection = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
+        connection = connect()
         cursor = connection.cursor()
         cursor.execute("SELECT brand_id, name FROM brand;")
         brands = cursor.fetchall()
@@ -176,7 +200,8 @@ class Compare(View):
         phone2_model = request.POST.get('phone2_model')
         brand_id = request.POST.get('brand_id')
 
-        connection = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
+        #connection = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
+        connection = connect()
         cursor = connection.cursor(cursor_factory=DictCursor)
         cursor.execute("SELECT phone_id, model FROM phone WHERE brand_id = %s", [brand_id])
         models = cursor.fetchall()
@@ -211,7 +236,8 @@ class SaveSearch(View):
     def post(self, request):
         form = SaveSearchForm(request.POST)
         if form.is_valid():
-            conn = psycopg2.connect(dbname='phones', user = 'postgres', password = 'pass1234', host = 'localhost')
+            #conn = psycopg2.connect(dbname='phones', user = 'postgres', password = 'pass1234', host = 'localhost')
+            conn = connect()
             brand_id = None
             phone_id = None
             email = None
@@ -268,7 +294,8 @@ class Phone(View):
     template = 'phone.html'
     def get(self, request, phone_id):
         form = CommentForm()
-        conn = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
+        #conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
+        conn = connect()
         with conn.cursor(cursor_factory=RealDictCursor) as cursor:
             findPhone = all_phones+""" where phone_id = %s;"""
             cursor.execute(findPhone, [phone_id,])
@@ -309,7 +336,8 @@ class Phone(View):
             email = form.cleaned_data["email"]
             password = form.cleaned_data["password"]
 
-            conn = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
+            #conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
+            conn = connect()
             if email == '' or password == '':
                 return redirect('phone', phone_id=phone_id)
             user_id = authenticate(conn, email, password)
@@ -332,7 +360,8 @@ class SearchResult(View):
     template = 'searchresult.html'
     def get(self, request, phone_ids):
         phone_ids = [int(x) for x in phone_ids.split('/')]
-        conn = psycopg2.connect(dbname='phones', user= 'postgres', password='pass1234', host='localhost')
+        #conn = psycopg2.connect(dbname='phones', user= 'postgres', password='pass1234', host='localhost')
+        conn = connect()
         with conn.cursor(cursor_factory=RealDictCursor) as cursor:
             findPhones = all_phones+""" where phone_id in %s;"""
             cursor.execute(findPhones, [tuple(phone_ids),])
@@ -370,9 +399,9 @@ class Admin(View):
             elif results["editphone"] == True:
                 return redirect('editphone')
             elif results["comments"] == True:
-                pass
+                return redirect('deletecomments')
             elif results["deleteuser"] == True:
-                pass
+                return redirect('deleteuser')
             else:
                 form = AdminOptionsForm()
         else:
@@ -501,7 +530,8 @@ class DeleteComents(View):
 
     def get(self, request):
         form = AdminDeleteCommentsForm()
-        connection = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
+        #connection = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
+        connection = connect()
         cursor = connection.cursor(cursor_factory=DictCursor)
         cursor.execute("""SELECT "comment".comment_id, "comment".content, "user".email FROM "comment" LEFT JOIN "user" ON "comment".user_id = "user".user_id;""")
         comments = cursor.fetchall()
@@ -509,7 +539,8 @@ class DeleteComents(View):
 
     def post(self, request):
         form = AdminDeleteCommentsForm(request.POST)
-        connection = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
+        #connection = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
+        connection = connect()
         cursor = connection.cursor(cursor_factory=DictCursor)
         if form.is_valid():
             results = form.cleaned_data
@@ -532,7 +563,8 @@ class DeleteUser(View):
 
     def get(self, request):
         form = AdminDeleteUserForm()
-        connection = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
+        #connection = psycopg2.connect(dbname='postgres', user='postgres', password='pass1234', host='localhost')
+        connection = connect()
         cursor = connection.cursor(cursor_factory=DictCursor)
         cursor.execute("""SELECT "user".user_id, "user".email FROM "user" """)
         users = cursor.fetchall()
@@ -540,7 +572,8 @@ class DeleteUser(View):
 
     def post(self, request):
         form = AdminDeleteUserForm(request.POST)
-        connection = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
+        #connection = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
+        connection = connect()
         cursor = connection.cursor(cursor_factory=DictCursor)
         if form.is_valid():
             results = form.cleaned_data
