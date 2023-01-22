@@ -74,10 +74,15 @@ class Index(View):
             #conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
             conn = connect()
             cursor = conn.cursor()
-            if register == True:
-                pass
             cursor.execute("SELECT password, is_admin FROM \"user\" WHERE email = %s;", (username,))
             results = cursor.fetchone()
+
+            if register == True and results is None:
+                cursor.execute("INSERT INTO \"user\" (email, password, is_admin) VALUES (%s, %s, %s);", (username, password, False))
+                conn.commit()
+                conn.close()
+                return redirect('options')
+
             conn.close()
             if results is None:
                 form = LoginForm()
