@@ -125,10 +125,21 @@ class Index(View):
             register = form.cleaned_data['register']
             conn = connect()
             cursor = conn.cursor()
+<<<<<<< HEAD
             if register == True:
                 pass
             cursor.execute("SELECT password, is_admin FROM \"user\" WHERE email = %s;", [email])
+=======
+            cursor.execute("SELECT password, is_admin FROM \"user\" WHERE email = %s;", (username,))
+>>>>>>> 9eccfbab09bc7f2a60264f3f1262646d9e428a34
             results = cursor.fetchone()
+
+            if register == True and results is None:
+                cursor.execute("INSERT INTO \"user\" (email, password, is_admin) VALUES (%s, %s, %s);", (username, password, False))
+                conn.commit()
+                conn.close()
+                return redirect('options')
+
             conn.close()
             if results is None:
                 form = LoginForm()
