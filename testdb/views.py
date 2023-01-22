@@ -1,4 +1,6 @@
 import psycopg2
+from django.contrib.auth import login
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.views import View
 from django.urls.exceptions import NoReverseMatch 
@@ -6,6 +8,7 @@ from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from psycopg2.extras import DictCursor, RealDictCursor
 import os
 from dotenv import load_dotenv
+from django.contrib.auth.backends import BaseBackend
 
 from .forms import LoginForm, OptionsForm, SearchForm, SaveSearchForm, AdminOptionsForm, AdminPhoneForm, \
     AdminDeletePhoneForm, CommentForm, AdminDeleteCommentsForm, AdminDeleteUserForm
@@ -27,16 +30,16 @@ all_phones = """select phonecpu.*, gpu.name as gpu_name into temp tempphone
                 join gpu
                 on gpu.gpu_id=phonecpu.gpu_id"""
 
-def authenticate(conn, username, password):
-    cursor = conn.cursor()
-    cursor.execute("SELECT password, user_id FROM \"user\" WHERE email = %s;", (username,))
-    results = cursor.fetchone()
-    if results is None:
-        return None 
-    elif results[0]==password:
-        return results[1]
-    else:
-        return None
+# def authenticate(conn, username, password):
+#     cursor = conn.cursor()
+#     cursor.execute("SELECT password, user_id FROM \"user\" WHERE email = %s;", (username,))
+#     results = cursor.fetchone()
+#     if results is None:
+#         return None
+#     elif results[0]==password:
+#         return results[1]
+#     else:
+#         return None
 
 def connect():
     """
@@ -57,24 +60,78 @@ def connect():
 
     return conn
 
+class MyAuthBackend(BaseBackend):
+    def authenticate(request, username=None, password=None):
+        conn = connect()
+        cursor = conn.cursor()
+        cursor.execute("SELECT password, is_admin FROM \"user\" WHERE email = %s;", [username])
+        results = cursor.fetchone()
+        conn.close()
+        if results is None:
+            return None
+        elif results[0] == password:
+            try:
+                user = User.objects.get(username=username)
+                return user
+            except User.DoesNotExist:
+                user = User.objects.create_user(username=username)
+                return user
+        else:
+            return None
+
+# class Index(View):
+#     template = 'index.html'
+#
+#     def get(self, request):
+#         form = LoginForm()
+#         return render(request, self.template, {"form":form})
+#
+#     def post(self, request):
+#         form = LoginForm(request.POST)
+#         if form.is_valid():
+#             username = form.cleaned_data['username']
+#             password = form.cleaned_data['password']
+#             register = form.cleaned_data['register']
+#             #conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
+#             conn = connect()
+#             cursor = conn.cursor()
+#             if register == True:
+#                 pass
+#             cursor.execute("SELECT password, is_admin FROM \"user\" WHERE email = %s;", (username,))
+#             results = cursor.fetchone()
+#             conn.close()
+#             if results is None:
+#                 form = LoginForm()
+#             elif results[0]==password and results[1]==False:
+#                 return redirect('options')
+#             elif results[0]==password and results[1]==True:
+#                 return redirect('admin')
+#         else:
+#             form = LoginForm()
+#         return render(request, self.template, {"form":form})
 
 class Index(View):
     template = 'index.html'
 
     def get(self, request):
         form = LoginForm()
-        return render(request, self.template, {"form":form})
-    
+        return render(request, self.template, {"form": form})
+
     def post(self, request):
         form = LoginForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data['username']
+            email = form.cleaned_data['username']
             password = form.cleaned_data['password']
             register = form.cleaned_data['register']
-            #conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
             conn = connect()
             cursor = conn.cursor()
+<<<<<<< HEAD
+            if register == True:
+                pass
+            cursor.execute("SELECT password, is_admin FROM \"user\" WHERE email = %s;", [email])
+=======
             cursor.execute("SELECT password, is_admin FROM \"user\" WHERE email = %s;", (username,))
+>>>>>>> 9eccfbab09bc7f2a60264f3f1262646d9e428a34
             results = cursor.fetchone()
 
             if register == True and results is None:
@@ -86,19 +143,34 @@ class Index(View):
             conn.close()
             if results is None:
                 form = LoginForm()
-            elif results[0]==password and results[1]==False:
-                return redirect('options')
-            elif results[0]==password and results[1]==True:
-                return redirect('admin')
+            elif results[0] == password:
+                user = MyAuthBackend.authenticate(request, username=email, password=password)
+                if user is not None:
+                    login(request, user)
+                    request.session['email'] = email
+                    if results[1] == False:
+                        return redirect('options')
+                    elif results[1] == True:
+                        return redirect('admin')
+                else:
+                    form = LoginForm()
+            else:
+                form = LoginForm()
         else:
             form = LoginForm()
-        return render(request, self.template, {"form":form})
+        return render(request, self.template, {"form": form})
+
+
 
 class Options(View):
     template = 'options.html'
     def get(self, request):
         form =OptionsForm()
-        return render(request, self.template, {"form":form})
+        email = request.session.get('email')
+        id = request.session.get('user_id')
+        print("EMAIL: " + email)
+        print("USER ID:", id)
+        return render(request, self.template, {"form":form, "email": email})
 
     def post(self, request):
         form = OptionsForm(request.POST)
@@ -227,8 +299,8 @@ class Compare(View):
                             WHERE phone.brand_id = %s AND phone.phone_id = %s;""", [phone2_brand, phone2_model])
         phone2_specs = cursor.fetchall()
 
-        print(phone1_specs)
-        print(phone2_specs)
+        #print(phone1_specs)
+        #print(phone2_specs)
         return JsonResponse({'models': models,'phone1_specs': phone1_specs, 'phone2_specs': phone2_specs}, safe=False)
 
 
@@ -250,6 +322,8 @@ class SaveSearch(View):
             with conn.cursor() as cursor:
                 searchform = form.cleaned_data
                 print(searchform)
+                email = request.session.get('email')
+                print(email)
                 #searchform = {k: v for k, v in searchform.items() if v is not None and v != ''}
                 #print(searchform)
                 if searchform['brand'] != '':
@@ -264,30 +338,43 @@ class SaveSearch(View):
                 conn.commit()
                 if brand_id is None and phone_id is None:
                     return redirect('noresults')
-                
-                if searchform['email'] == '' or searchform['password'] == '':
+
+                if request.user.is_authenticated:
                     return redirect('savesearch')
                 else:
-                    email = searchform['email']
-                    password = searchform['password']
-
-            with conn.cursor() as cursor:
-                user_id = authenticate(conn, email, password)
-                print(user_id, brand_id)
-                if brand_id is not None and user_id is not None:
+                    email = request.session.get('email')
+                    cursor.execute("SELECT user_id FROM \"user\" WHERE email = %s", [email])
+                    user_id = cursor.fetchone()[0]
+                    print("userID", user_id)
+                    if brand_id is not None and user_id is not None:
                         cursor.execute("""INSERT INTO brand_subscription (brand_id, user_id)
-                                         VALUES (%s, %s);""", (brand_id, user_id))
+                                                        VALUES (%s, %s);""", (brand_id, user_id))
                         conn.commit()
-
-                if phone_id is not None and user_id is not None:
+                    if phone_id is not None and user_id is not None:
                         cursor.execute("""INSERT INTO phone_subscription (phone_id, user_id)
-                                         VALUES (%s, %s);""", (phone_id, user_id))
+                        VALUES (%s, %s);""", (phone_id, user_id))
                         conn.commit()
+                        conn.close()
+            form = SaveSearchForm()
+            return render(request, self.template, {"form": form})
 
-            conn.close()
-
-        form = SaveSearchForm()
-        return render(request, self.template, {"form":form})
+        #     with conn.cursor() as cursor:
+        #         user_id = authenticate(conn, email, password)
+        #         print(user_id, brand_id)
+        #         if brand_id is not None and user_id is not None:
+        #                 cursor.execute("""INSERT INTO brand_subscription (brand_id, user_id)
+        #                                  VALUES (%s, %s);""", (brand_id, user_id))
+        #                 conn.commit()
+        #
+        #         if phone_id is not None and user_id is not None:
+        #                 cursor.execute("""INSERT INTO phone_subscription (phone_id, user_id)
+        #                                  VALUES (%s, %s);""", (phone_id, user_id))
+        #                 conn.commit()
+        #
+        #     conn.close()
+        #
+        # form = SaveSearchForm()
+        # return render(request, self.template, {"form":form})
             
 class Manage(View):
     template = 'manage.html'

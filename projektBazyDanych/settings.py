@@ -27,6 +27,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# path to backend authentication
+AUTHENTICATION_BACKENDS = ['testdb.views.MyAuthBackend']
+
+# cookies
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_COOKIE_AGE = 60 * 60 * 24 # 1 day
+
+#logout
+LOGOUT_REDIRECT_URL = '/'
 
 # Application definition
 
