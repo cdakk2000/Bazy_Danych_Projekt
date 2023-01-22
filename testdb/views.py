@@ -50,7 +50,7 @@ class Index(View):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             register = form.cleaned_data['register']
-            conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
+            conn = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
             cursor = conn.cursor()
             if register == True:
                 pass
@@ -156,12 +156,12 @@ class Search(View):
         return render(request, self.template, {"form":form})
 
 class Compare(View):
-    template = 'porownywarka.html'
+    template = 'compare.html'
     # def get(self, request):
     #     return render(request, self.template)
 
     def get(self, request):
-        connection = psycopg2.connect(dbname='postgres', user='postgres', password='pass1234', host='localhost')
+        connection = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
         cursor = connection.cursor()
         cursor.execute("SELECT brand_id, name FROM brand;")
         brands = cursor.fetchall()
@@ -176,13 +176,25 @@ class Compare(View):
         phone2_model = request.POST.get('phone2_model')
         brand_id = request.POST.get('brand_id')
 
-        connection = psycopg2.connect(dbname='postgres', user='postgres', password='pass1234', host='localhost')
+        connection = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
         cursor = connection.cursor(cursor_factory=DictCursor)
         cursor.execute("SELECT phone_id, model FROM phone WHERE brand_id = %s", [brand_id])
         models = cursor.fetchall()
-        cursor.execute("SELECT * FROM phone WHERE brand_id = %s AND phone_id = %s", [phone1_brand, phone1_model])
+        cursor.execute("""SELECT phone.*, cpu.name, brand.name, chipset.name, gpu.name
+                            FROM phone
+                            LEFT JOIN cpu ON phone.cpu_id = cpu.cpu_id
+                            LEFT JOIN brand ON phone.brand_id = brand.brand_id
+                            LEFT JOIN chipset ON phone.chipset_id = chipset.chipset_id
+                            LEFT JOIN gpu ON phone.gpu_id = gpu.gpu_id
+                            WHERE phone.brand_id = %s AND phone.phone_id = %s;""", [phone1_brand, phone1_model])
         phone1_specs = cursor.fetchall()
-        cursor.execute("SELECT * FROM phone WHERE brand_id = %s AND phone_id = %s", [phone2_brand, phone2_model])
+        cursor.execute("""SELECT phone.*, cpu.name, brand.name, chipset.name, gpu.name
+                            FROM phone
+                            LEFT JOIN cpu ON phone.cpu_id = cpu.cpu_id
+                            LEFT JOIN brand ON phone.brand_id = brand.brand_id
+                            LEFT JOIN chipset ON phone.chipset_id = chipset.chipset_id
+                            LEFT JOIN gpu ON phone.gpu_id = gpu.gpu_id
+                            WHERE phone.brand_id = %s AND phone.phone_id = %s;""", [phone2_brand, phone2_model])
         phone2_specs = cursor.fetchall()
 
         print(phone1_specs)
@@ -256,7 +268,7 @@ class Phone(View):
     template = 'phone.html'
     def get(self, request, phone_id):
         form = CommentForm()
-        conn = psycopg2.connect(dbname='phones', user= 'postgres',  password='pass1234', host='localhost')
+        conn = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
         with conn.cursor(cursor_factory=RealDictCursor) as cursor:
             findPhone = all_phones+""" where phone_id = %s;"""
             cursor.execute(findPhone, [phone_id,])
@@ -297,7 +309,7 @@ class Phone(View):
             email = form.cleaned_data["email"]
             password = form.cleaned_data["password"]
 
-            conn = psycopg2.connect(dbname='phones', user= 'postgres',  password='pass1234', host='localhost')
+            conn = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
             if email == '' or password == '':
                 return redirect('phone', phone_id=phone_id)
             user_id = authenticate(conn, email, password)
