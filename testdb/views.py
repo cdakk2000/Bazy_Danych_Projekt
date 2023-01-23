@@ -368,7 +368,26 @@ class SaveSearch(View):
 class Manage(View):
     template = 'manage.html'
     def get(self, request):
-        return render(request, self.template)
+        conn = connect()
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        email = request.session.get('email')
+        cursor.execute("""SELECT brand.name FROM brand_subscription
+LEFT JOIN "user" ON brand_subscription.user_id =
+(SELECT "user".user_id FROM "user" WHERE "user".email = %s)
+LEFT JOIN brand ON brand_subscription.brand_id = brand.brand_id
+WHERE "user".email = %s;""", [email, email])
+        brand_subs = cursor.fetchall()
+
+        cursor.execute("""SELECT brand.name, phone.model FROM phone_subscription
+LEFT JOIN "user" ON phone_subscription.user_id =
+(SELECT "user".user_id FROM "user" WHERE "user".email = %s)
+LEFT JOIN phone ON phone_subscription.phone_id = phone.phone_id
+LEFT JOIN brand ON phone.brand_id = brand.brand_id
+WHERE "user".email = %s;""", [email, email])
+        phone_subs = cursor.fetchall()
+        print(brand_subs)
+        print(phone_subs)
+        return render(request, self.template, {"brand_subs": brand_subs, "phone_subs": phone_subs})
 
 
 class Phone(View):

@@ -11,5 +11,28 @@
       <a href="/options/">Powrót</a>
     </nav>
   </header>
+
+<table>
+    <tr>
+        <th>Zasubskrybowane marki</th>
+    </tr>
+    {% for row in brand_subs %}
+    <tr>
+        <td>{{ row.name }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<table>
+    <tr>
+        <th>Zasubskrybowane telefony</th>
+    </tr>
+    {% for row in phone_subs %}
+    <tr>
+        <td>{{ row.name }}</td>
+        <td>{{ row.model }}</td>
+    </tr>
+    {% endfor %}
+</table>
 </body>
 </html>
