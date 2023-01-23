@@ -1,5 +1,5 @@
 import psycopg2
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.views import View
@@ -442,15 +442,23 @@ class Phone(View):
             conn = connect()
             if email == '' or password == '':
                 return redirect('phone', phone_id=phone_id)
-            user_id = authenticate(conn, email, password)
-            if user_id is not None:
-                pass
-            """TODO: wstawienie komentarza od bazy
-            tutaj jest na razie tylko słownik {"comment": "tresc komentarza"}
-            jak będzie jednak robić to uwierzytalnianie za każdym razem to trzeba będzie dorabić pola email i hasło
-            i szukać czy user jest autoryzowany
-            po dadaniu trzeba wyrenderować jeszcze raz stronę  z telefonem"""
+            # user_id = authenticate(conn, email, password)
+            # if user_id is not None:
 
+            with conn.cursor() as crsr:
+                crsr.execute('''
+                select count(*) > 1
+                from "user" as u where u.email = %s;
+                ''',(email,))
+                user_exists = crsr.fetchone()[0]
+                if user_exists:
+                    crsr.execute('''
+                    insert into comment (content, user_id, phone_id)
+                    values (%s,
+                    (select user_id from "user" u where u.email = %s),
+                    %s);
+                    ''', (comment, email, phone_id))
+                    conn.commit()
             return redirect('phone', phone_id=phone_id)
         else:
             form = CommentForm()
