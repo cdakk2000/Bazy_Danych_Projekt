@@ -435,23 +435,41 @@ class Phone(View):
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.cleaned_data["comment"]
-            email = form.cleaned_data["email"]
-            password = form.cleaned_data["password"]
-
-            #conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
             conn = connect()
-            if email == '' or password == '':
+            
+            if request.user.is_authenticated:
                 return redirect('phone', phone_id=phone_id)
-            user_id = authenticate(conn, email, password)
-            if user_id is not None:
-                pass
+            else:
+                with conn.cursor() as cursor:
+                    email = request.session.get('email')
+                    cursor.execute("""SELECT user_id FROM "user" WHERE email = %s;""", [email,])
+                    user_id = cursor.fetchone()[0]
+                    if user_id is not None:
+                        cursor.execute("""INSERT INTO "comment" (user_id, phone_id, content)
+                                    VALUES (%s, %s, %s);""", (user_id, phone_id, comment))
+                        conn.commit()
+                    else:
+                        form = CommentForm()
+            conn.close()
+            return redirect('phone', phone_id=phone_id)
+            #conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
+            #conn = connect()
+            #if email == '' or password == '':
+            #    return redirect('phone', phone_id=phone_id)
+            #user_id = authenticate(conn, email, password)
+            #if user_id is not None:
+            #    with conn.cursor() as cursor:
+            #        cursor.execute("""INSERT INTO "comment" (user_id, phone_id, content)
+            #                        VALUES (%s, %s, %s);""", (user_id, phone_id, comment))
+            #        conn.commit()
+            #        conn.close()
+            
             """TODO: wstawienie komentarza od bazy
             tutaj jest na razie tylko słownik {"comment": "tresc komentarza"}
             jak będzie jednak robić to uwierzytalnianie za każdym razem to trzeba będzie dorabić pola email i hasło
             i szukać czy user jest autoryzowany
             po dadaniu trzeba wyrenderować jeszcze raz stronę  z telefonem"""
 
-            return redirect('phone', phone_id=phone_id)
         else:
             form = CommentForm()
 
