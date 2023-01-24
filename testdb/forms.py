@@ -54,7 +54,8 @@ class AdminOptionsForm(forms.Form):
 class AdminPhoneForm(forms.Form):
     model = forms.CharField(label='Model', max_length=64, required=True)
     brand_name = forms.CharField(label='Brand', max_length=16, required=True)
-    release = forms.DateField(label='Release date', required=False)
+    release = forms.DateField(label='Release date', required=False,
+                                widget=forms.DateInput(attrs={'type': 'date'}))
     height = forms.FloatField(label='Height', min_value=0, step_size = 0.01, required=False)
     width = forms.FloatField(label='Width', min_value=0, step_size = 0.01, required = False)
     thickness = forms.FloatField(label='Thickness', min_value=0, step_size = 0.01, required = False)
