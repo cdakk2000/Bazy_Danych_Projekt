@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Results</title>
+    <link rel="stylesheet" href="/static/css/pico.classless.min.css">
+</head>
+<body>
+<header>
+    <nav>
+      <a href="/admin/">Powrót</a>
+    </nav>
+</header>
+    <h1>Phone {{operation}}</h1>
+</body>
+</html>
