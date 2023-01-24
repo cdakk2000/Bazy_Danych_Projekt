@@ -696,7 +696,7 @@
     "radio": false,
     "battery_capacity": 4400,
     "battery_removable": false,
-    "image_url": "httpshttps://fdn2.gsmarena.com/vv/pics/huawei/huawei-mate40-pro-1.jpg",
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/huawei/huawei-mate40-pro-1.jpg",
     "camera": [
       {
         "mp": 50,
@@ -742,7 +742,7 @@
     "radio": false,
     "battery_capacity": 4100,
     "battery_removable": false,
-    "image_url": "httpshttps://fdn2.gsmarena.com/vv/pics/huawei/huawei-p50-1.jpg",
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/huawei/huawei-p50-1.jpg",
     "camera": [
       {
         "mp": 50,
@@ -789,7 +789,7 @@
     "radio": false,
     "battery_capacity": 4200,
     "battery_removable": false,
-    "image_url": "httpshttps://fdn2.gsmarena.com/vv/pics/huawei/huawei-p40-pro-01.jpg",
+    "image_url": "https://fdn2.gsmarena.com/vv/pics/huawei/huawei-p40-pro-01.jpg",
     "camera": [
       {
         "mp": 50,
