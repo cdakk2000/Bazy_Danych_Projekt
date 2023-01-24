@@ -452,24 +452,6 @@ class Phone(View):
                         form = CommentForm()
             conn.close()
             return redirect('phone', phone_id=phone_id)
-            #conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
-            #conn = connect()
-            #if email == '' or password == '':
-            #    return redirect('phone', phone_id=phone_id)
-            #user_id = authenticate(conn, email, password)
-            #if user_id is not None:
-            #    with conn.cursor() as cursor:
-            #        cursor.execute("""INSERT INTO "comment" (user_id, phone_id, content)
-            #                        VALUES (%s, %s, %s);""", (user_id, phone_id, comment))
-            #        conn.commit()
-            #        conn.close()
-            
-            """TODO: wstawienie komentarza od bazy
-            tutaj jest na razie tylko słownik {"comment": "tresc komentarza"}
-            jak będzie jednak robić to uwierzytalnianie za każdym razem to trzeba będzie dorabić pola email i hasło
-            i szukać czy user jest autoryzowany
-            po dadaniu trzeba wyrenderować jeszcze raz stronę  z telefonem"""
-
         else:
             form = CommentForm()
 
