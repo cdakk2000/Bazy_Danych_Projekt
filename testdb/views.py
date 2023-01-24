@@ -1,17 +1,16 @@
-import psycopg2
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.views import View
-from django.urls.exceptions import NoReverseMatch 
+from django.urls.exceptions import NoReverseMatch
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from psycopg2.extras import DictCursor, RealDictCursor
-import os
-from dotenv import load_dotenv
 from django.contrib.auth.backends import BaseBackend
 
 from .forms import LoginForm, OptionsForm, SearchForm, SaveSearchForm, AdminOptionsForm, AdminPhoneForm, \
     AdminDeletePhoneForm, CommentForm, AdminDeleteCommentsForm, AdminDeleteUserForm
+from .phone import addPhone, deletePhone, updatePhone
+from .db import connect
 
 all_phones = """select phonecpu.*, gpu.name as gpu_name into temp tempphone
                 from	
@@ -30,6 +29,7 @@ all_phones = """select phonecpu.*, gpu.name as gpu_name into temp tempphone
                 join gpu
                 on gpu.gpu_id=phonecpu.gpu_id"""
 
+
 # def authenticate(conn, username, password):
 #     cursor = conn.cursor()
 #     cursor.execute("SELECT password, user_id FROM \"user\" WHERE email = %s;", (username,))
@@ -41,24 +41,6 @@ all_phones = """select phonecpu.*, gpu.name as gpu_name into temp tempphone
 #     else:
 #         return None
 
-def connect():
-    """
-    Connect to database and return connection
-    """
-    try:
-        load_dotenv()
-        conn = psycopg2.connect(
-            host=os.getenv("POSTGRES_HOST"),
-            dbname=os.getenv("POSTGRES_DB"),
-            user=os.getenv("POSTGRES_USER"),
-            password=os.getenv("POSTGRES_PASSWORD"),
-            port=os.getenv("POSTGRES_PORT")
-        )
-    except psycopg2.OperationalError as e:
-        print(f"Could not connect to Database: {e}")
-        exit(1)
-
-    return conn
 
 class MyAuthBackend(BaseBackend):
     def authenticate(request, username=None, password=None):
@@ -78,6 +60,7 @@ class MyAuthBackend(BaseBackend):
                 return user
         else:
             return None
+
 
 # class Index(View):
 #     template = 'index.html'
@@ -128,7 +111,8 @@ class Index(View):
             cursor.execute("SELECT password, is_admin FROM \"user\" WHERE email = %s;", [email])
             results = cursor.fetchone()
             if register == True and results is None:
-                cursor.execute("INSERT INTO \"user\" (email, password, is_admin) VALUES (%s, %s, %s);", (email, password, False))
+                cursor.execute("INSERT INTO \"user\" (email, password, is_admin) VALUES (%s, %s, %s);",
+                               (email, password, False))
                 conn.commit()
                 results = (password, False)
             conn.close()
@@ -152,16 +136,16 @@ class Index(View):
         return render(request, self.template, {"form": form})
 
 
-
 class Options(View):
     template = 'options.html'
+
     def get(self, request):
-        form =OptionsForm()
+        form = OptionsForm()
         email = request.session.get('email')
         id = request.session.get('user_id')
-        #print("EMAIL: " + email)
-        #print("USER ID:", id)
-        return render(request, self.template, {"form":form, "email": email})
+        # print("EMAIL: " + email)
+        # print("USER ID:", id)
+        return render(request, self.template, {"form": form, "email": email})
 
     def post(self, request):
         form = OptionsForm(request.POST)
@@ -182,22 +166,24 @@ class Options(View):
                 form = OptionsForm()
         else:
             form = OptionsForm()
-        return render(request, self.template, {"form":form})
+        return render(request, self.template, {"form": form})
+
 
 class Search(View):
     template = 'search.html'
+
     def get(self, request):
         form = SearchForm()
-        return render(request, self.template, {"form":form})
-        
+        return render(request, self.template, {"form": form})
+
     def post(self, request):
         form = SearchForm(request.POST)
         if form.is_valid():
-            #conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
+            # conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
             conn = connect()
             with  conn.cursor() as cursor:
                 searchform = form.cleaned_data
-                searchform = {k: v for k, v in searchform.items() if v is not None and v != '' and v!=False}
+                searchform = {k: v for k, v in searchform.items() if v is not None and v != '' and v != False}
 
                 if 'model' in searchform:
                     cursor.execute("SELECT phone_id FROM phone WHERE model = %s;", (searchform['model'],))
@@ -212,20 +198,20 @@ class Search(View):
 
                 elif len(searchform) != 0:
 
-                    findPhone = all_phones+";"
+                    findPhone = all_phones + ";"
                     cursor.execute(findPhone)
 
                     removable_columns = ["brand_id", "cpu_id", "gpu_id", "chipset_id", "image_url"]
                     remove_query = """ALTER TABLE tempphone DROP %s;"""
                     for remove in removable_columns:
-                        cursor.execute(remove_query % remove)  
+                        cursor.execute(remove_query % remove)
 
                     search_query = "SELECT phone_id FROM tempphone WHERE "
                     for k in searchform.keys():
                         if k == "ram" or k == "internal_memory":
-                            search_query += "%s = ANY("+k+") AND "
-                        elif k=="bluetooth_version" or k=="width" or k=="height" or k=="thickness":
-                            search_query+= k +" = real \'%s\' AND "
+                            search_query += "%s = ANY(" + k + ") AND "
+                        elif k == "bluetooth_version" or k == "width" or k == "height" or k == "thickness":
+                            search_query += k + " = real \'%s\' AND "
                         else:
                             search_query += k + " = \'%s\' AND "
                     search_query = search_query[:-5] + ";"
@@ -238,21 +224,23 @@ class Search(View):
                     try:
                         return redirect('searchresult', phone_ids=resultsphoneids)
                     except NoReverseMatch:
-                       return redirect('noresults')
+                        return redirect('noresults')
                 else:
                     form = SearchForm()
         else:
             form = SearchForm()
-                
-        return render(request, self.template, {"form":form})
+
+        return render(request, self.template, {"form": form})
+
 
 class Compare(View):
     template = 'compare.html'
+
     # def get(self, request):
     #     return render(request, self.template)
 
     def get(self, request):
-        #connection = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
+        # connection = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
         connection = connect()
         cursor = connection.cursor()
         cursor.execute("SELECT brand_id, name FROM brand;")
@@ -268,7 +256,7 @@ class Compare(View):
         phone2_model = request.POST.get('phone2_model')
         brand_id = request.POST.get('brand_id')
 
-        #connection = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
+        # connection = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
         connection = connect()
         cursor = connection.cursor(cursor_factory=DictCursor)
         cursor.execute("SELECT phone_id, model FROM phone WHERE brand_id = %s", [brand_id])
@@ -290,21 +278,22 @@ class Compare(View):
                             WHERE phone.brand_id = %s AND phone.phone_id = %s;""", [phone2_brand, phone2_model])
         phone2_specs = cursor.fetchall()
 
-        #print(phone1_specs)
-        #print(phone2_specs)
-        return JsonResponse({'models': models,'phone1_specs': phone1_specs, 'phone2_specs': phone2_specs}, safe=False)
+        # print(phone1_specs)
+        # print(phone2_specs)
+        return JsonResponse({'models': models, 'phone1_specs': phone1_specs, 'phone2_specs': phone2_specs}, safe=False)
 
 
 class SaveSearch(View):
     template = "savesearch.html"
+
     def get(self, request):
         form = SaveSearchForm()
-        return render(request, self.template, {"form":form})
+        return render(request, self.template, {"form": form})
 
     def post(self, request):
         form = SaveSearchForm(request.POST)
         if form.is_valid():
-            #conn = psycopg2.connect(dbname='phones', user = 'postgres', password = 'pass1234', host = 'localhost')
+            # conn = psycopg2.connect(dbname='phones', user = 'postgres', password = 'pass1234', host = 'localhost')
             conn = connect()
             brand_id = None
             phone_id = None
@@ -315,17 +304,17 @@ class SaveSearch(View):
                 print(searchform)
                 email = request.session.get('email')
                 print(email)
-                #searchform = {k: v for k, v in searchform.items() if v is not None and v != ''}
-                #print(searchform)
+                # searchform = {k: v for k, v in searchform.items() if v is not None and v != ''}
+                # print(searchform)
                 if searchform['brand'] != '':
                     print(searchform['brand'])
                     cursor.execute("SELECT brand_id FROM brand WHERE name = %s;", (searchform['brand'],))
                     brand_id = cursor.fetchone()[0]
-                
+
                 if searchform['model'] != '':
                     cursor.execute("SELECT phone_id FROM phone WHERE model = %s;", (searchform['model'],))
                     phone_id = cursor.fetchone()[0]
-                
+
                 conn.commit()
                 if brand_id is None and phone_id is None:
                     return redirect('noresults')
@@ -366,9 +355,11 @@ class SaveSearch(View):
         #
         # form = SaveSearchForm()
         # return render(request, self.template, {"form":form})
-            
+
+
 class Manage(View):
     template = 'manage.html'
+
     def get(self, request):
         conn = connect()
         cursor = conn.cursor(cursor_factory=RealDictCursor)
@@ -394,29 +385,30 @@ WHERE "user".email = %s;""", [email, email])
 
 class Phone(View):
     template = 'phone.html'
+
     def get(self, request, phone_id):
         form = CommentForm()
-        #conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
+        # conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
         conn = connect()
         with conn.cursor(cursor_factory=RealDictCursor) as cursor:
-            findPhone = all_phones+""" where phone_id = %s;"""
-            cursor.execute(findPhone, [phone_id,])
-            
+            findPhone = all_phones + """ where phone_id = %s;"""
+            cursor.execute(findPhone, [phone_id, ])
+
             removable_columns = ["brand_id", "cpu_id", "gpu_id", "chipset_id", "phone_id"]
             remove_query = """ALTER TABLE tempphone DROP %s;"""
             for remove in removable_columns:
                 cursor.execute(remove_query % remove)
-            
+
             cursor.execute("select * from tempphone;")
             results = cursor.fetchone()
-            
+
             cursor.execute("drop table tempphone;")
             conn.commit()
             findcommentsquery = """select "user".email, "comment".content from comment 
                                     join "user"
                                     on "user".user_id = "comment".user_id
                                     where "comment".phone_id = %s;"""
-            cursor.execute(findcommentsquery, [phone_id,])
+            cursor.execute(findcommentsquery, [phone_id, ])
             comments = cursor.fetchall()
             conn.commit()
 
@@ -425,11 +417,12 @@ class Phone(View):
                                 (SELECT camera_id FROM "phone-camera" 
                                 WHERE phone_id = %s)
                                 ORDER BY mp DESC;"""
-            cursor.execute(findcamerasquery, [phone_id,])
+            cursor.execute(findcamerasquery, [phone_id, ])
             cameras = cursor.fetchall()
             conn.commit()
             conn.close()
-        return render(request, self.template, {"phone":results, "comments": comments, "cameras":cameras, "form":form})
+        return render(request, self.template,
+                      {"phone": results, "comments": comments, "cameras": cameras, "form": form})
 
     def post(self, request, phone_id):
         form = CommentForm(request.POST)
@@ -452,6 +445,23 @@ class Phone(View):
                         form = CommentForm()
             conn.close()
             return redirect('phone', phone_id=phone_id)
+            #conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
+            #conn = connect()
+            #if email == '' or password == '':
+            #    return redirect('phone', phone_id=phone_id)
+            #user_id = authenticate(conn, email, password)
+            #if user_id is not None:
+            #    with conn.cursor() as cursor:
+            #        cursor.execute("""INSERT INTO "comment" (user_id, phone_id, content)
+            #                        VALUES (%s, %s, %s);""", (user_id, phone_id, comment))
+            #        conn.commit()
+            #        conn.close()
+            
+            """TODO: wstawienie komentarza od bazy
+            tutaj jest na razie tylko słownik {"comment": "tresc komentarza"}
+            jak będzie jednak robić to uwierzytalnianie za każdym razem to trzeba będzie dorabić pola email i hasło
+            i szukać czy user jest autoryzowany
+            po dadaniu trzeba wyrenderować jeszcze raz stronę  z telefonem"""
         else:
             form = CommentForm()
 
@@ -460,13 +470,14 @@ class Phone(View):
 
 class SearchResult(View):
     template = 'searchresult.html'
+
     def get(self, request, phone_ids):
         phone_ids = [int(x) for x in phone_ids.split('/')]
-        #conn = psycopg2.connect(dbname='phones', user= 'postgres', password='pass1234', host='localhost')
+        # conn = psycopg2.connect(dbname='phones', user= 'postgres', password='pass1234', host='localhost')
         conn = connect()
         with conn.cursor(cursor_factory=RealDictCursor) as cursor:
-            findPhones = all_phones+""" where phone_id in %s;"""
-            cursor.execute(findPhones, [tuple(phone_ids),])
+            findPhones = all_phones + """ where phone_id in %s;"""
+            cursor.execute(findPhones, [tuple(phone_ids), ])
 
             removable_columns = ["brand_id", "cpu_id", "gpu_id", "chipset_id", "phone_id", "image_url"]
             remove_query = """ALTER TABLE tempphone DROP %s;"""
@@ -476,19 +487,23 @@ class SearchResult(View):
             cursor.execute("select * from tempphone;")
             results = cursor.fetchall()
             cursor.execute("drop table tempphone;")
-        
-        return render(request, self.template, {"phones":results})
+
+        return render(request, self.template, {"phones": results})
+
 
 class NoResults(View):
     template = 'noresult.html'
+
     def get(self, request):
         return render(request, self.template)
 
+
 class Admin(View):
     template = 'admin.html'
+
     def get(self, request):
         form = AdminOptionsForm()
-        return render(request, self.template, {"form":form})
+        return render(request, self.template, {"form": form})
 
     def post(self, request):
         form = AdminOptionsForm(request.POST)
@@ -508,32 +523,41 @@ class Admin(View):
                 form = AdminOptionsForm()
         else:
             form = AdminOptionsForm()
-        return render(request, self.template, {"form":form})
+        return render(request, self.template, {"form": form})
+
 
 class AddPhone(View):
     template = 'addphone.html'
+
     def get(self, request):
         form = AdminPhoneForm()
-        return render(request, self.template, {"form":form})
+        return render(request, self.template, {"form": form})
 
     def post(self, request):
         form = AdminPhoneForm(request.POST)
         if form.is_valid():
             results = form.cleaned_data
+            # print(results)
             cameras = results["cameras"]
             if len(cameras) != 0:
                 cameraslist = []
                 for camera in cameras.split(', '):
                     i = camera.split('/')
-                    cameraslist.append({"mp":int(i[0]), "f":float(i[1])})
+                    cameraslist.append({"mp": int(i[0]), "f": float(i[1])})
             boolfields = ["memory_card_dedicated", "audio_jack", "gps", "nfc", "radio", "battery_removable"]
             for field in boolfields:
                 if results[field] == True:
                     results[field] = True
                 else:
                     results[field] = False
-            """TODO: dodawanie telefonu do bazy
-            zakładam że admin musi podać model i markę telefonu
+            conn = connect()
+            addPhone(results)
+            # with conn.cursor() as crsr:
+            #     '''
+            #     insert into phone ()
+            #     '''
+            # TODO: dodawanie telefonu do bazy
+            """zakładam że admin musi podać model i markę telefonu
             generalnie z formularzu dodstajemy dane w formie
             {'model': 'asdf', 'brand_name': 'asdf', 'release': None, 'height': None, 'width': None, 'thickness': None, 'resolution': '', 
             'ppi': None, 'cpu_name': '', 
@@ -546,62 +570,104 @@ class AddPhone(View):
             trzeba wyciągnąć ze słownika dane chipset_name, cpu_name, gpu_name, brand_name bo mają swoje tabele
             typu results["chipset_name"] itp;
             dane typu bool w formularzu mam jako char bo w polach bool nie mogę dać None
-            """ 
-            #na końcu przekirownie do jakiejś stonki która wyświetla że dodano telefon
-            #jak robisz jakieś ify to które sprawdzają czy dane zostaną dodane to na końcu daj
-            #if cośtam: return render(request, 'results.html', {'operation': 'edited'}) to jest przekierowanie jeśli się udało
-            #napisłem na dole jak to może wyglądać 
-            #else : form = AdminPhoneForm() to jest jak się nie uda
-            #wtedy jak coś pujdzie nie tak to zresetuje się formularz 
-            #możesz zobaczyc jak to wyglądało w tym co robiłem wcześniej
+            """
+            # na końcu przekirownie do jakiejś stonki która wyświetla że dodano telefon
+            # jak robisz jakieś ify to które sprawdzają czy dane zostaną dodane to na końcu daj
+            # if cośtam: return render(request, 'results.html', {'operation': 'edited'}) to jest przekierowanie jeśli się udało
+            # napisłem na dole jak to może wyglądać
+            # else : form = AdminPhoneForm() to jest jak się nie uda
+            # wtedy jak coś pujdzie nie tak to zresetuje się formularz
+            # możesz zobaczyc jak to wyglądało w tym co robiłem wcześniej
             context = {'operation': 'added'}
             return render(request, 'results.html', context)
         else:
             form = AdminPhoneForm()
-    
-        return render(request, self.template, {"form":form})
+
+        return render(request, self.template, {"form": form})
+
+
 
 class DeletePhone(View):
     template = 'deletephone.html'
+
     def get(self, request):
         form = AdminDeletePhoneForm()
-        return render(request, self.template, {"form":form})
-    
+        return render(request, self.template, {"form": form})
+
     def post(self, request):
         form = AdminDeletePhoneForm(request.POST)
+        conn = connect()
+        cursor = conn.cursor(cursor_factory=DictCursor)
         if form.is_valid():
             results = form.cleaned_data
-            """TODO: usuwanie telefonu z bazy
-            tutaj raczej nie mam co edytować masz po prosty słownik z modelem i marką telefonu
-            {'model': 'asdf', 'brand_name': 'asdf'} itp.
-            """
-            #tutaj też trzeba zrobić render  tak jak pisałem w addphone i editphone
-            #formularz tutaj to nie AdminPhoneForm tylko AdminDeletePhoneForm
-            context = {'operation': 'deleted'}
-            return render(request, 'results.html', context)
+            cursor.execute("""SELECT COUNT(*) FROM phone 
+                            WHERE model = %s 
+                            AND brand_id = (SELECT brand_id FROM brand 
+                            WHERE name = %s)""", [results.get('model'), results.get('brand_name')])
+            count = cursor.fetchone()[0]
+            if count == 0:
+                form = AdminDeletePhoneForm()
+                return render(request, self.template, {"form": form})
+            else:
+                cursor.execute("""DELETE FROM phone 
+                        WHERE model = %s 
+                        AND brand_id = (SELECT brand_id FROM brand 
+                        WHERE name = %s)""", [results.get('model'), results.get('brand_name')])
+                conn.commit()
+
+
+                context = {'operation': 'deleted'}
+                return render(request, 'adminresults.html', context)
+            
         else:
             form = AdminDeletePhoneForm()
-        return render(request, self.template, {"form":form})
+        return render(request, self.template, {"form": form})
+    
+            
 
-
+	
 class EditPhone(View):
     template = 'editphone.html'
+
     def get(self, request):
         form = AdminPhoneForm()
-        return render(request, self.template, {"form":form})
+        return render(request, self.template, {"form": form})
 
     def post(self, request):
-        form  = AdminPhoneForm(request.POST)
+        form = AdminPhoneForm(request.POST)
         if form.is_valid():
+            conn = connect()
             results = form.cleaned_data
-            results = {k:v for k,v in results.items() if v != None or v != ''}
-            if "cameras" in results.results():
+            with conn.cursor() as crsr:
+                if results['brand_name'] != "":
+                    crsr.execute('insert into brand (name) values (%s) on conflict do nothing;', (results['brand_name'],))
+                    crsr.execute('select brand_id from brand b where b.name = %(brand_name)s;', results)
+                    results['brand_id'] = crsr.fetchone()[0]
+                    results.pop('brand_name')
+                if results['cpu_name'] != "":
+                    crsr.execute('insert into cpu (name) values (%s) on conflict do nothing;', (results['cpu_name'],))
+                    crsr.execute('select cpu_id from cpu b where b.name = %(cpu_name)s;',results)
+                    results['cpu_id'] = crsr.fetchone()[0]
+                    results.pop('cpu_name')
+                if results['chipset_name'] != "":
+                    crsr.execute('insert into chipset (name) values (%s) on conflict do nothing;', (results['chipset_name'],))
+                    crsr.execute('select chipset_id from chipset b where b.name = %s;', (results['chipset_name'],))
+                    results['chipset_id'] = crsr.fetchone()[0]
+                    results.pop('chipset_name')
+                if results['gpu_name'] != "":
+                    crsr.execute('insert into gpu (name) values (%s) on conflict do nothing;', (results['gpu_name'],))
+                    crsr.execute('select gpu_id from gpu b where b.name = %s;', (results['gpu_name'],))
+                    results['gpu_id'] = crsr.fetchone()[0]
+                    results.pop('gpu_name')
+                conn.commit()
+            results = {k: v for k, v in results.items() if v is not None and v != ''}
+            cameraslist = []  # Musi być tutaj, jeśli telefon nie ma kamer i tak chcemy `cameras` zdefiniowane
+            if "cameras" in results:
                 cameras = results["cameras"]
-                cameraslist = []
                 for camera in cameras.split(', '):
                     i = camera.split('/')
-                    cameraslist.append({"mp":int(i[0]), "f":float(i[1])})
-            
+                    cameraslist.append({"mp": int(i[0]), "f": float(i[1])})
+
             boolfields = ["memory_card_dedicated", "audio_jack", "gps", "nfc", "radio", "battery_removable"]
             for field in boolfields:
                 if field in results.keys():
@@ -609,13 +675,14 @@ class EditPhone(View):
                         results[field] = True
                     else:
                         results[field] = False
+            updatePhone(results, cameraslist)
 
-            #na końcu przekirownie do jakiejś stonki która wyświetla że zedytowano telefon
-            #jak robisz jakieś ify to które sprawdzają czy dane zostaną zedytowane to na końcu daj
-            #if cośtam: return render(request, 'results.html', {'operation': 'edited'}) to jest przekierowanie jeśli się udało
-            #else : form = AdminPhoneForm() to jest jak się nie uda
-            #wtedy jak coś pujdzie nie tak to zresetuje się formularz 
-            #tak samo jak w dodawaniu telefonu
+            # na końcu przekirownie do jakiejś stonki która wyświetla że zedytowano telefon
+            # jak robisz jakieś ify to które sprawdzają czy dane zostaną zedytowane to na końcu daj
+            # if cośtam: return render(request, 'results.html', {'operation': 'edited'}) to jest przekierowanie jeśli się udało
+            # else : form = AdminPhoneForm() to jest jak się nie uda
+            # wtedy jak coś pujdzie nie tak to zresetuje się formularz
+            # tak samo jak w dodawaniu telefonu
         else:
             form = AdminPhoneForm()
         """TODO: edycja telefonu
@@ -625,23 +692,25 @@ class EditPhone(View):
         generalnie tak zrobiłem z polami bool bo domyślnie nie można dać None w tych polach
         jeśli kamera ma być edydtowna to ma swoją tablicę która wygląda tak samo jak w przypadku dodawania telefonu
         """
-        return render(request, self.template, {"form":form})
+        return render(request, self.template, {"form": form})
+
 
 class DeleteComents(View):
     template = 'deletecomment.html'
 
     def get(self, request):
         form = AdminDeleteCommentsForm()
-        #connection = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
+        # connection = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
         connection = connect()
         cursor = connection.cursor(cursor_factory=DictCursor)
-        cursor.execute("""SELECT "comment".comment_id, "comment".content, "user".email FROM "comment" LEFT JOIN "user" ON "comment".user_id = "user".user_id;""")
+        cursor.execute(
+            """SELECT "comment".comment_id, "comment".content, "user".email FROM "comment" LEFT JOIN "user" ON "comment".user_id = "user".user_id;""")
         comments = cursor.fetchall()
         return render(request, self.template, {"form": form, "comments": comments})
 
     def post(self, request):
         form = AdminDeleteCommentsForm(request.POST)
-        #connection = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
+        # connection = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
         connection = connect()
         cursor = connection.cursor(cursor_factory=DictCursor)
         if form.is_valid():
@@ -652,7 +721,6 @@ class DeleteComents(View):
             cursor.execute(
                 """SELECT "comment".comment_id, "comment".content, "user".email FROM "comment" LEFT JOIN "user" ON "comment".user_id = "user".user_id;""")
             comments = cursor.fetchall()
-
 
             return render(request, self.template, {"form": form, "comments": comments})
         else:
@@ -665,7 +733,7 @@ class DeleteUser(View):
 
     def get(self, request):
         form = AdminDeleteUserForm()
-        #connection = psycopg2.connect(dbname='postgres', user='postgres', password='pass1234', host='localhost')
+        # connection = psycopg2.connect(dbname='postgres', user='postgres', password='pass1234', host='localhost')
         connection = connect()
         cursor = connection.cursor(cursor_factory=DictCursor)
         cursor.execute("""SELECT "user".user_id, "user".email FROM "user" """)
@@ -674,7 +742,7 @@ class DeleteUser(View):
 
     def post(self, request):
         form = AdminDeleteUserForm(request.POST)
-        #connection = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
+        # connection = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
         connection = connect()
         cursor = connection.cursor(cursor_factory=DictCursor)
         if form.is_valid():
