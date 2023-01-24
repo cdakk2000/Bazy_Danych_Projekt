@@ -579,6 +579,7 @@ class AddPhone(View):
     
         return render(request, self.template, {"form":form})
 
+
 class DeletePhone(View):
     template = 'deletephone.html'
     def get(self, request):
@@ -587,21 +588,29 @@ class DeletePhone(View):
     
     def post(self, request):
         form = AdminDeletePhoneForm(request.POST)
+        conn = connect()
+        cursor = conn.cursor(cursor_factory=DictCursor)
         if form.is_valid():
             results = form.cleaned_data
-            """TODO: usuwanie telefonu z bazy
-            tutaj raczej nie mam co edytować masz po prosty słownik z modelem i marką telefonu
-            {'model': 'asdf', 'brand_name': 'asdf'} itp.
-            """
-            #tutaj też trzeba zrobić render  tak jak pisałem w addphone i editphone
-            #formularz tutaj to nie AdminPhoneForm tylko AdminDeletePhoneForm
-            context = {'operation': 'deleted'}
-            return render(request, 'results.html', context)
-        else:
-            form = AdminDeletePhoneForm()
-        return render(request, self.template, {"form":form})
+            cursor.execute("""SELECT COUNT(*) FROM phone 
+                            WHERE model = %s 
+                            AND brand_id = (SELECT brand_id FROM brand 
+                            WHERE name = %s)""", [results.get('model'), results.get('brand_name')])
+            count = cursor.fetchone()[0]
+            if count == 0:
+                form = AdminDeletePhoneForm()
+                return render(request, self.template, {"form": form})
+            else:
+                cursor.execute("""DELETE FROM phone 
+                        WHERE model = %s 
+                        AND brand_id = (SELECT brand_id FROM brand 
+                        WHERE name = %s)""", [results.get('model'), results.get('brand_name')])
+                conn.commit()
 
+                context = {'operation': 'deleted'}
+                return render(request, 'adminresults.html', context)
 
+	
 class EditPhone(View):
     template = 'editphone.html'
     def get(self, request):
