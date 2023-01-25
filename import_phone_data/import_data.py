@@ -62,6 +62,7 @@ def import_phones(path):
                   (select camera_id from camera where camera.mp = '{camera['mp']}' and camera.f = '{camera['f']}')
                 ) on conflict do nothing ;
                 """)
+    conn.commit()
     print("Closed connection to database.")
 
 
@@ -95,6 +96,7 @@ def connect():
 def main():
     import_phones("samsung/samsung.json")
     import_phones("fakephone/phone_db_json.json")
+    import_phones("huawei/huawei.json")
     import_phones("others/others.json")
 
 
