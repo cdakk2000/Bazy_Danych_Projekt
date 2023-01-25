@@ -8,9 +8,8 @@ from dotenv import load_dotenv
 
 
 def import_phones(path):
-    conn = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
-
     phones = load_data(path)
+    conn = connect()
     with conn, conn.cursor() as cur:
         for p in phones:
             queries = [
@@ -47,7 +46,6 @@ def import_phones(path):
                 """,
             ]
             for q in queries:
-                print(q)
                 cur.execute(q)
             for camera in p['camera']:
                 cur.execute(f"""
@@ -62,6 +60,7 @@ def import_phones(path):
                   (select camera_id from camera where camera.mp = '{camera['mp']}' and camera.f = '{camera['f']}')
                 ) on conflict do nothing ;
                 """)
+    conn.commit()
     print("Closed connection to database.")
 
 
@@ -95,6 +94,7 @@ def connect():
 def main():
     import_phones("samsung/samsung.json")
     import_phones("fakephone/phone_db_json.json")
+    import_phones("huawei/huawei.json")
     import_phones("others/others.json")
 
 

@@ -1,0 +1,17 @@
+FROM python:3.11
+
+COPY . /app
+
+EXPOSE 8000
+
+ENV POSTGRES_HOST 127.0.0.1
+ENV POSTGRES_DB postgres
+ENV POSTGRES_USER postgres
+ENV POSTGRES_PASSWORD superdupersecretpass
+ENV POSTGRES_PORT 5432
+
+COPY . /app
+
+RUN pip install -r /app/requirements.txt
+
+CMD ["sh","/app/install.sh"]
