@@ -8,9 +8,8 @@ from dotenv import load_dotenv
 
 
 def import_phones(path):
-    conn = psycopg2.connect(dbname='postgres', user='postgres', password='mysecretpassword', host='localhost')
-
     phones = load_data(path)
+    conn = connect()
     with conn, conn.cursor() as cur:
         for p in phones:
             queries = [
@@ -47,7 +46,6 @@ def import_phones(path):
                 """,
             ]
             for q in queries:
-                print(q)
                 cur.execute(q)
             for camera in p['camera']:
                 cur.execute(f"""
