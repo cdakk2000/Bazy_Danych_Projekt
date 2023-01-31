@@ -10,7 +10,7 @@ services:
       - POSTGRES_DB=telefony
 
   app:
-    image: ghcr.io/pwr-pro/projekt_bd:1.1
+    image: ghcr.io/pwr-pro/projekt_bd:1.2
     ports:
       - 8000:8000
     links:
