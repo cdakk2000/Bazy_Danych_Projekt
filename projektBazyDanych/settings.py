@@ -86,11 +86,11 @@ WSGI_APPLICATION = 'projektBazyDanych.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': f'{os.getenv("POSTGRES_DB")}',
-        'USER': f'{os.getenv("POSTGRES_USER")}',
-        'PASSWORD': f'{os.getenv("POSTGRES_PASSWORD")}',
-        'HOST': f'{os.getenv("POSTGRES_HOST")}',
-        'PORT': f'{os.getenv("POSTGRES_PORT")}',
+        'NAME': f'{os.getenv("POSTGRES_DATABASE") or "postgres"}',
+        'USER': f'{os.getenv("POSTGRES_USER") or "postgres"}',
+        'PASSWORD': f'{os.getenv("POSTGRES_PASSWORD") or "mysecretpassword"}',
+        'HOST': f'{os.getenv("POSTGRES_HOST") or "127.0.0.1"}',
+        'PORT': f'{os.getenv("POSTGRES_PORT") or "5432"}',
     }
 }
 

@@ -44,34 +44,35 @@ def addPhone(phone_data: dict) -> None:
             crsr.execute('insert into chipset (name) values (%s) on conflict do nothing;', (p['chipset_name'],))
         if p['gpu_name'] != "":
             crsr.execute('insert into gpu (name) values (%s) on conflict do nothing;', (p['gpu_name'],))
+        conn.commit()
 
-        crsr.execute('''
-        select 
-            brand_id, brand.name as brand_name, 
-            cpu_id, cpu.name as cpu_name,
-            chipset_id, chipset.name as chipset_name, 
-            gpu_id, gpu.name  as gpu_name
-        from brand, cpu, chipset, gpu
-        where brand.name = %s
-            and cpu.name = %s
-            and chipset.name = %s
-            and gpu.name = %s;
-        ''', (p['brand_name'], p['cpu_name'], p['chipset_name'], p['gpu_name']))
-        phone_db = crsr.fetchone()
+        # get brand_id
+        crsr.execute('select brand_id from brand where name = %s limit 1;', (p['brand_name'],))
+        brand_id = crsr.fetchone()
+        # get cpu_id
+        crsr.execute('select cpu_id from cpu where name = %s limit 1;', (p['cpu_name'],))
+        cpu_id = crsr.fetchone()
+        # get chipset_id
+        crsr.execute('select chipset_id from chipset where name = %s limit 1;', (p['chipset_name'],))
+        chipset_id = crsr.fetchone()
+        # get gpu_id
+        crsr.execute('select gpu_id from gpu where name = %s limit 1;', (p['gpu_name'],))
+        gpu_id = crsr.fetchone()
+
         crsr.execute(phone_insert_sql, (
             phone_data['internal_memory'] or 0,
             phone_data['ram'] or 0,
             phone_data['model'],
-            phone_db['brand_id'],
+            brand_id['brand_id'] or None,
             phone_data['release'],
             phone_data['height'],
             phone_data['width'],
             phone_data['thickness'],
             phone_data['resolution'],
             phone_data['ppi'],
-            phone_db['cpu_id'],
-            phone_db['chipset_id'],
-            phone_db['gpu_id'],
+            cpu_id['cpu_id'] or None,
+            chipset_id['chipset_id'] or None,
+            gpu_id['gpu_id'] or None,
             True if phone_data['memory_card_dedicated'] == 'y' else False,
             phone_data['wifi'],
             phone_data['sim'],

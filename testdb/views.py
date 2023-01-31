@@ -181,7 +181,7 @@ class Search(View):
         if form.is_valid():
             # conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
             conn = connect()
-            with  conn.cursor() as cursor:
+            with conn.cursor() as cursor:
                 searchform = form.cleaned_data
                 searchform = {k: v for k, v in searchform.items() if v is not None and v != '' and v != False}
 
@@ -429,13 +429,13 @@ class Phone(View):
         if form.is_valid():
             comment = form.cleaned_data["comment"]
             conn = connect()
-            
+
             if request.user.is_authenticated:
                 return redirect('phone', phone_id=phone_id)
             else:
                 with conn.cursor() as cursor:
                     email = request.session.get('email')
-                    cursor.execute("""SELECT user_id FROM "user" WHERE email = %s;""", [email,])
+                    cursor.execute("""SELECT user_id FROM "user" WHERE email = %s;""", [email, ])
                     user_id = cursor.fetchone()[0]
                     if user_id is not None:
                         cursor.execute("""INSERT INTO "comment" (user_id, phone_id, content)
@@ -445,18 +445,18 @@ class Phone(View):
                         form = CommentForm()
             conn.close()
             return redirect('phone', phone_id=phone_id)
-            #conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
-            #conn = connect()
-            #if email == '' or password == '':
+            # conn = psycopg2.connect(dbname='phones', user='postgres', password='pass1234', host='localhost')
+            # conn = connect()
+            # if email == '' or password == '':
             #    return redirect('phone', phone_id=phone_id)
-            #user_id = authenticate(conn, email, password)
-            #if user_id is not None:
+            # user_id = authenticate(conn, email, password)
+            # if user_id is not None:
             #    with conn.cursor() as cursor:
             #        cursor.execute("""INSERT INTO "comment" (user_id, phone_id, content)
             #                        VALUES (%s, %s, %s);""", (user_id, phone_id, comment))
             #        conn.commit()
             #        conn.close()
-            
+
             """TODO: wstawienie komentarza od bazy
             tutaj jest na razie tylko słownik {"comment": "tresc komentarza"}
             jak będzie jednak robić to uwierzytalnianie za każdym razem to trzeba będzie dorabić pola email i hasło
@@ -586,7 +586,6 @@ class AddPhone(View):
         return render(request, self.template, {"form": form})
 
 
-
 class DeletePhone(View):
     template = 'deletephone.html'
 
@@ -615,17 +614,14 @@ class DeletePhone(View):
                         WHERE name = %s)""", [results.get('model'), results.get('brand_name')])
                 conn.commit()
 
-
                 context = {'operation': 'deleted'}
                 return render(request, 'adminresults.html', context)
-            
+
         else:
             form = AdminDeletePhoneForm()
         return render(request, self.template, {"form": form})
-    
-            
 
-	
+
 class EditPhone(View):
     template = 'editphone.html'
 
@@ -640,17 +636,19 @@ class EditPhone(View):
             results = form.cleaned_data
             with conn.cursor() as crsr:
                 if results['brand_name'] != "":
-                    crsr.execute('insert into brand (name) values (%s) on conflict do nothing;', (results['brand_name'],))
+                    crsr.execute('insert into brand (name) values (%s) on conflict do nothing;',
+                                 (results['brand_name'],))
                     crsr.execute('select brand_id from brand b where b.name = %(brand_name)s;', results)
                     results['brand_id'] = crsr.fetchone()[0]
                     results.pop('brand_name')
                 if results['cpu_name'] != "":
                     crsr.execute('insert into cpu (name) values (%s) on conflict do nothing;', (results['cpu_name'],))
-                    crsr.execute('select cpu_id from cpu b where b.name = %(cpu_name)s;',results)
+                    crsr.execute('select cpu_id from cpu b where b.name = %(cpu_name)s;', results)
                     results['cpu_id'] = crsr.fetchone()[0]
                     results.pop('cpu_name')
                 if results['chipset_name'] != "":
-                    crsr.execute('insert into chipset (name) values (%s) on conflict do nothing;', (results['chipset_name'],))
+                    crsr.execute('insert into chipset (name) values (%s) on conflict do nothing;',
+                                 (results['chipset_name'],))
                     crsr.execute('select chipset_id from chipset b where b.name = %s;', (results['chipset_name'],))
                     results['chipset_id'] = crsr.fetchone()[0]
                     results.pop('chipset_name')
